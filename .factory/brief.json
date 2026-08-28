@@ -1,0 +1,11 @@
+{
+  "slug": "secret-exposure-path",
+  "title": "Secret Exposure Path",
+  "territory": "devtools-data",
+  "user": "Teams using coding agents and CI who need to see where a credential can travel—from local file to git diff, log, artifact, or prompt—before it leaks.",
+  "smallest_useful_product": "A shell/CI wrapper that traces declared workspace outputs, detects secret-shaped values and taint propagation into staged diffs/log files/artifacts, then emits a redacted path graph.",
+  "success_measure": "The seeded suite identifies every injected credential path into a git diff, log, or artifact while keeping false positives below two per 100 normal commands.",
+  "artifact_class": "cli",
+  "monetization": "free",
+  "constraints": "Do not transmit or persist detected secret values; hashes and locations only; explain heuristic limits and provide allowlists."
+}
