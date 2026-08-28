@@ -1,5 +1,19 @@
 # Handoff — Secret Exposure Path v0.1.0
 
+## Independent verification — FAIL
+
+Verified 2026-08-28 against candidate
+`e74ec13a1702a5d73218f4dd25269bcab2aaa1e6` and
+https://secret-exposure-path.sociobot.in/.
+
+**Do not release this candidate.** Required `.factory/claims.json` is missing;
+there is no compliant one-click isolated demo or CLI `sep demo` sample; and
+the live deployment omits the declared CSP, Permissions-Policy, and immutable
+asset caching headers. The live root HTML byte-matches the candidate build.
+See `.factory/verification.md` for exact commands, evidence, applicability,
+and severity-ranked defects. Local tests/build/package checks passed, but they
+do not override these release blockers.
+
 Date: 2026-08-28
 Work order: `secret-exposure-path-build-1`
 
