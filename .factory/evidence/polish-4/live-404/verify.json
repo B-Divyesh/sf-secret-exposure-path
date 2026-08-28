@@ -1,0 +1,14 @@
+{
+  "url": "https://secret-exposure-path.sociobot.in/404/",
+  "loadMs": 577,
+  "errors": [],
+  "a11y": {
+    "title": "Page not found — Secret Exposure Path",
+    "lang": "en",
+    "h1": 1,
+    "main": true,
+    "imgsMissingAlt": 0,
+    "buttonsUnlabeled": 0,
+    "textLength": 339
+  }
+}

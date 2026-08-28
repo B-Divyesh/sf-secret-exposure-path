@@ -1,0 +1,14 @@
+{
+  "url": "https://secret-exposure-path.sociobot.in/?demo=1",
+  "loadMs": 950,
+  "errors": [],
+  "a11y": {
+    "title": "Demo — Secret Exposure Path",
+    "lang": "en",
+    "h1": 1,
+    "main": true,
+    "imgsMissingAlt": 0,
+    "buttonsUnlabeled": 0,
+    "textLength": 759
+  }
+}
