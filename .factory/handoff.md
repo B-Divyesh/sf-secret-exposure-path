@@ -40,11 +40,26 @@ Fresh clean clone: `/tmp/secret-exposure-path-polish3.xZrUiw/repo` at
   `.factory/evidence/polish-3/local-home-390.png` and
   `.factory/evidence/polish-3/local-demo-390.png`. The facts end at y=825.67;
   the completed demo result ends at y=820.66, both inside 844px.
+- Deployed through the configured Static Web Apps work-order helper:
+  deployment `16c97937-e2d4-4a8c-860e-4e5182b1b6a7` completed successfully.
+  The live URL now serves the new demo and allowlist copy.
+- Cold live browser re-check at 390 × 844: `/`, `/demo/`, `/privacy/`,
+  `/terms/`, and `/404/` return 200 with one `h1`, one `main`, heading focus,
+  route title/metadata, and zero serious/critical Axe findings; an unknown
+  route returns HTTP 404. Live evidence is
+  `.factory/evidence/polish-3/live-home-390.png` and
+  `.factory/evidence/polish-3/live-demo-390.png`.
+- Live `/?demo=1` redirects to `/demo/?demo=1`; the result is y=617.97–820.66
+  and all three facts are within y=778.30–825.67. A unique demo input stayed
+  redacted, Reset demo restored the sample, local/session storage remained
+  empty, all 14 requests were same-origin, and clear/reset worked offline.
+- Live root headers include the configured CSP, Permissions-Policy,
+  Referrer-Policy, and nosniff; the hashed JS is immutable. Robots, sitemap,
+  favicon, social card, and touch icon return 200.
 
 No `verify-url.sh` exists in this repository. The browser suite’s
 `@axe-core/playwright` checks cover home, demo, privacy, terms, and 404 routes.
 
-## Known gaps and next step
+## Known gaps
 
-There are no known product gaps. Push this repair, wait for the static
-deployment, then cold-open the live URL and re-check every mapped finding.
+There are no known product gaps or pending steps.

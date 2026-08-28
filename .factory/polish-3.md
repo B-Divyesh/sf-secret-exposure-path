@@ -13,6 +13,16 @@ phone-only checks**. Local phone evidence is committed at
 `.factory/evidence/polish-3/local-home-390.png` and
 `.factory/evidence/polish-3/local-demo-390.png`.
 
+Every row below was also cold-checked at
+<https://secret-exposure-path.sociobot.in/> after deployment
+`16c97937-e2d4-4a8c-860e-4e5182b1b6a7`. Fresh 390 × 844 contexts confirmed
+`/`, `/demo/`, `/privacy/`, `/terms/`, and `/404/` each return 200, have one
+`h1` and `main`, focus their `h1`, have route-specific titles, and have zero
+serious or critical Axe issues. An unknown route returned the designed 404
+with HTTP 404. The live screenshots are
+`.factory/evidence/polish-3/live-home-390.png` and
+`.factory/evidence/polish-3/live-demo-390.png`.
+
 | Finding | Change made | Evidence |
 | --- | --- | --- |
 | F-1-1 | Kept 12-character fingerprints with source and sink locations. | `@claim:fingerprint-format`; clean-clone claim command. |
@@ -60,5 +70,10 @@ leaves the sandbox. This is exercised by `@claim:browser-private`,
 and `demo banner remains available after a phone visitor scrolls to the
 editors`.
 
-Live URL re-check evidence will be added immediately after the static
-deployment for this commit completes.
+The cold live check entered `/?demo=1`, reached `/demo/?demo=1`, verified the
+completed result at y=617.97–820.66, reset a unique input, observed empty
+local/session storage and 14 same-origin requests, then set the browser
+offline and successfully ran clear and reset paths. The three live facts end
+at y=825.67. Root CSP/permissions/referrer/nosniff headers and immutable
+hashed-asset caching are live; robots, sitemap, favicon, social card, and
+touch icon each return 200.
