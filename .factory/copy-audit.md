@@ -1,4 +1,4 @@
-# Landing-page copy audit — polish 2
+# Landing-page copy audit — polish 3
 
 Audited 2026-08-28. Counts treat hyphenated terms, commands, and numbers as one word. Navigation labels and code samples are excluded because they are not sentences.
 
@@ -35,7 +35,8 @@ Audited 2026-08-28. Counts treat hyphenated terms, commands, and numbers as one 
 | What this tool cannot detect. | 5 | Pass |
 | Exact tracking stops when a value is encrypted, split, or transformed beyond recognition. | 13 | Pass |
 | Shape-only findings are labeled `unattributed`. | 5 | Pass |
-| Narrow fingerprint and path allowlists tame known fixtures without hiding every result. | 12 | Pass |
+| Allowlist a fingerprint or path for an accepted test result. | 10 | Pass |
+| Other findings stay visible. | 4 | Pass |
 | Trace declared credential paths locally. | 5 | Pass |
 | Add a credential-like variable name and a value of at least 8 characters. | 13 | Pass |
 | Comparing declared values with the sink… | 6 | Pass |

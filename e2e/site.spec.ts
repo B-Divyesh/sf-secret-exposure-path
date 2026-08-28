@@ -110,6 +110,47 @@ test('mobile first screen keeps its heading, install control, and actions inside
   }
 });
 
+test('mobile first screen keeps all three plain product facts in view', async ({ page }) => {
+  test.skip(page.viewportSize()?.width !== 390, 'This check is for the 390px phone viewport.');
+  await page.goto('/');
+  const viewportHeight = await page.evaluate(() => window.innerHeight);
+  const bounds = await page.locator('.micro-proof span').evaluateAll(elements => elements.map(element => {
+    const rect = element.getBoundingClientRect();
+    return { top: rect.top, bottom: rect.bottom };
+  }));
+  expect(bounds).toHaveLength(3);
+  for (const bound of bounds) {
+    expect(bound.top).toBeGreaterThanOrEqual(0);
+    expect(bound.bottom).toBeLessThanOrEqual(viewportHeight);
+  }
+});
+
+test('mobile direct demo shows its completed sample path before scrolling', async ({ page }) => {
+  test.skip(page.viewportSize()?.width !== 390, 'This check is for the 390px phone viewport.');
+  await page.goto('/?demo=1');
+  await expect(page).toHaveURL(/\/demo\/\?demo=1$/);
+  await expect(page.locator('#trace-result')).toContainText('1 exposed path');
+  await expect(page.locator('#trace-result')).toContainText('Value redacted. Fingerprint and locations only.');
+  const bounds = await page.locator('#trace-result').evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    return { top: rect.top, bottom: rect.bottom, viewportHeight: window.innerHeight };
+  });
+  expect(bounds.top).toBeGreaterThanOrEqual(0);
+  expect(bounds.bottom).toBeLessThanOrEqual(bounds.viewportHeight);
+});
+
+test('demo banner remains available after a phone visitor scrolls to the editors', async ({ page }) => {
+  test.skip(page.viewportSize()?.width !== 390, 'This check is for the 390px phone viewport.');
+  await page.goto('/?demo=1');
+  await page.locator('#source-input').scrollIntoViewIfNeeded();
+  const bounds = await page.locator('.demo-banner').evaluate(element => {
+    const rect = element.getBoundingClientRect();
+    return { top: rect.top, bottom: rect.bottom, viewportHeight: window.innerHeight };
+  });
+  expect(bounds.top).toBeGreaterThanOrEqual(0);
+  expect(bounds.bottom).toBeLessThanOrEqual(bounds.viewportHeight);
+});
+
 test('every route shares the same primary navigation and labels off-site links', async ({ page }) => {
   const navigation = ['How it works', 'Demo', 'Privacy', 'Terms'];
   for (const path of ['/', '/demo/', '/privacy/', '/terms/', '/404/']) {

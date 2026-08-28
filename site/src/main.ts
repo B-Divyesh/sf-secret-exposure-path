@@ -28,12 +28,20 @@ function escapeHtml(value: string): string {
   return value.replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character] ?? character);
 }
 
+// The demo has one real rendered result. CSS moves it ahead of the editors on
+// a phone, so a visitor sees the completed sample immediately.
+function showResult(state: string, markup: string): void {
+  if (result) {
+    result.className = `trace-result ${state}`;
+    result.innerHTML = markup;
+  }
+}
+
 async function runTrace(): Promise<void> {
   if (!sourceInput || !sinkInput || !result || !traceButton || !benchClock) return;
   const candidates = declaredValues(sourceInput.value);
   if (candidates.length === 0) {
-    result.className = 'trace-result error-result';
-    result.innerHTML = '<div class="result-heading"><span aria-hidden="true">!</span><div><strong>No traceable source</strong><p>Add a credential-like variable name and a value of at least 8 characters.</p></div></div>';
+    showResult('error-result', '<div class="result-heading"><span aria-hidden="true">!</span><div><strong>No traceable source</strong><p>Add a credential-like variable name and a value of at least 8 characters.</p></div></div>');
     sourceInput.focus();
     return;
   }
@@ -41,24 +49,20 @@ async function runTrace(): Promise<void> {
   traceButton.disabled = true;
   traceButton.textContent = 'Tracing…';
   benchClock.textContent = 'SCANNING';
-  result.className = 'trace-result loading-result';
-  result.innerHTML = '<div class="result-empty"><span aria-hidden="true">···</span><p>Comparing declared values with the sink…</p></div>';
+  showResult('loading-result', '<div class="result-empty"><span aria-hidden="true">···</span><p>Comparing declared values with the sink…</p></div>');
 
   try {
     const findings = await traceDemo(sourceInput.value, sinkInput.value);
     if (findings.length === 0) {
-      result.className = 'trace-result clear-result';
-      result.innerHTML = '<div class="result-heading"><span aria-hidden="true">✓</span><div><strong>Clear path</strong><p>No declared value reached this sink.</p></div></div>';
+      showResult('clear-result', '<div class="result-heading"><span aria-hidden="true">✓</span><div><strong>Clear path</strong><p>No declared value reached this sink.</p></div></div>');
       benchClock.textContent = 'CLEAR / 00';
     } else {
       const paths = findings.map(finding => `<li><span class="source-node">.env.local:${finding.sourceLine}</span><i aria-hidden="true"></i><span class="command-node">command</span><i aria-hidden="true"></i><span class="sink-node">release.log:${finding.sinkLine}</span><small>${escapeHtml(finding.name)} · ${finding.fingerprint}</small></li>`).join('');
-      result.className = 'trace-result exposed-result';
-      result.innerHTML = `<div class="result-heading"><span aria-hidden="true">×</span><div><strong>${findings.length} exposed path${findings.length === 1 ? '' : 's'}</strong><p>Value redacted. Fingerprint and locations only.</p></div></div><ol class="demo-paths">${paths}</ol>`;
+      showResult('exposed-result', `<div class="result-heading"><span aria-hidden="true">×</span><div><strong>${findings.length} exposed path${findings.length === 1 ? '' : 's'}</strong><p>Value redacted. Fingerprint and locations only.</p></div></div><ol class="demo-paths">${paths}</ol>`);
       benchClock.textContent = `EXPOSED / ${String(findings.length).padStart(2, '0')}`;
     }
   } catch {
-    result.className = 'trace-result error-result';
-    result.innerHTML = '<div class="result-heading"><span aria-hidden="true">!</span><div><strong>Trace could not run</strong><p>This browser does not provide the local hashing API. Try a current browser.</p></div></div>';
+    showResult('error-result', '<div class="result-heading"><span aria-hidden="true">!</span><div><strong>Trace could not run</strong><p>This browser does not provide the local hashing API. Try a current browser.</p></div></div>');
     benchClock.textContent = 'ERROR';
   } finally {
     traceButton.disabled = false;

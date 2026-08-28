@@ -40,5 +40,7 @@ describe('release contracts', () => {
     const home = readFileSync('site/index.html', 'utf8');
     expect(home).toContain('Trace credentials before they reach logs.');
     expect(home).toContain('Read the detection limits on GitHub');
+    expect(home).toContain('Allowlist a fingerprint or path for an accepted test result. Other findings stay visible.');
+    expect(readFileSync('site/demo/index.html', 'utf8')).toContain('Trace the sample exposure.');
   });
 });
