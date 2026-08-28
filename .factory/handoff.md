@@ -1,21 +1,23 @@
-# Handoff — Secret Exposure Path repair 1
+# Handoff — Secret Exposure Path independent verification 2
 
 Date: 2026-08-28
 
-Work order: `secret-exposure-path-repair-1`
+Work order: `secret-exposure-path-verify-2`
 
-Verifier report: `4d9f3adc80bb95b97d072e9dd4bd246a063dfd5a`
+Verified candidate: `60680aa40360abff9d628db72677f4b5b804585b`
 
-Failed candidate: `e74ec13a1702a5d73218f4dd25269bcab2aaa1e6`
+Live URL: <https://secret-exposure-path.sociobot.in/>
 
-Repair commits: `826fafc`, `763ae0d`, `525bce8`, `791ca21`
+Full independent evidence: [.factory/verification-2.md](verification-2.md)
 
 ## Release decision
 
-**Ready for re-verification.** All seven findings in `.factory/verification.md`
-were reproduced and repaired. The static site and CLI artifact class are
-unchanged. The repair is pushed to `origin/main` and deployed at
-<https://secret-exposure-path.sociobot.in/>.
+**PASS.** Independent QA of the clean candidate checkout and its matching live
+deployment found no defects by severity. The required seven claim tests,
+local unit/integration/site/E2E checks, production build, package/install
+consumer flow, live privacy/headers/accessibility/mobile/keyboard checks, and
+bundle/Lighthouse checks all passed. See `verification-2.md` for exact
+commands and evidence.
 
 ## Finding-by-finding repairs
 
