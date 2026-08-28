@@ -22,7 +22,8 @@ fn traces_seeded_paths_and_never_prints_the_value() {
         .arg(&artifact)
         .args(["--", "sh", "-c"])
         .arg(format!(
-            "printf '%s\\n' '{secret}' > '{}'; printf '%s\\n' '{secret}'",
+            ". '{}'; printf '%s\\n' \"$DEPLOY_SECRET\" > '{}'; printf '%s\\n' \"$DEPLOY_SECRET\"",
+            source.display(),
             artifact.display()
         ))
         .output()
@@ -81,7 +82,7 @@ fn reports_a_git_diff_path() {
     let result = sep()
         .current_dir(dir.path())
         .args(["run", "--json", "--source", "source.env", "--", "sh", "-c"])
-        .arg(format!("printf 'safe\\n{secret}\\n' > tracked.txt"))
+        .arg(". ./source.env; printf 'safe\\n%s\\n' \"$API_SECRET\" > tracked.txt")
         .output()
         .unwrap();
     assert_eq!(result.status.code(), Some(10));
@@ -92,6 +93,43 @@ fn reports_a_git_diff_path() {
         .iter()
         .any(|item| item["sink"] == "git:working-tree"));
     assert!(!String::from_utf8_lossy(&result.stdout).contains(secret));
+}
+
+#[test]
+fn blocks_a_declared_value_in_command_arguments_before_execution() {
+    let dir = tempfile::tempdir().unwrap();
+    let marker = dir.path().join("must-not-exist");
+    let secret = "literal-command-value-4411";
+    fs::write(
+        dir.path().join("source.env"),
+        format!("DEPLOY_SECRET={secret}\n"),
+    )
+    .unwrap();
+
+    let result = sep()
+        .current_dir(dir.path())
+        .args([
+            "run",
+            "--json",
+            "--no-git",
+            "--source",
+            "source.env",
+            "--",
+            "sh",
+            "-c",
+        ])
+        .arg(format!(
+            "touch '{}'; printf '%s' '{secret}'",
+            marker.display()
+        ))
+        .output()
+        .unwrap();
+
+    assert_eq!(result.status.code(), Some(10));
+    assert!(!marker.exists());
+    assert!(!String::from_utf8_lossy(&result.stdout).contains(secret));
+    let report: Value = serde_json::from_slice(&result.stdout).unwrap();
+    assert_eq!(report["findings"][0]["sink"], "command:arguments");
 }
 
 #[test]

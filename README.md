@@ -72,6 +72,8 @@ stderr so stdout remains machine-readable.
 
 `sep` tracks exact in-memory values from declared dotenv files and environment
 variables, and separately flags high-confidence credential shapes in sinks.
+If a declared value appears literally in the planned command arguments, the
+preflight reports the path and refuses to start the command.
 It never recovers or prints a value. Encoding, encryption, splitting, very
 short values, or transformations it does not recognize can break a path. A
 shape match without a declared source is labeled `unattributed`. Review results

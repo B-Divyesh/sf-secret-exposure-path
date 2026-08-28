@@ -254,6 +254,10 @@ impl Trace {
         redacted
     }
 
+    pub fn has_findings(&self) -> bool {
+        !self.findings.is_empty()
+    }
+
     pub fn report(mut self, command: Option<String>) -> Report {
         self.findings.sort_by(|a, b| {
             (&a.sink, a.line, &a.fingerprint).cmp(&(&b.sink, b.line, &b.fingerprint))

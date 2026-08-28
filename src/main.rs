@@ -129,7 +129,13 @@ fn run(args: RunArgs) -> Result<i32, String> {
         .map(|part| part.to_string_lossy())
         .collect::<Vec<_>>()
         .join(" ");
+    trace.scan_text("command:arguments", "preflight", &raw_display_command);
     let display_command = trace.redact(&raw_display_command);
+    if trace.has_findings() {
+        let report = trace.report(Some(display_command));
+        print_report(&report, args.common.json)?;
+        return Ok(EXPOSURE_EXIT);
+    }
     let program = args
         .command
         .first()
