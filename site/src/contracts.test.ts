@@ -43,4 +43,11 @@ describe('release contracts', () => {
     expect(home).toContain('Allowlist a fingerprint or path for an accepted test result. Other findings stay visible.');
     expect(readFileSync('site/demo/index.html', 'utf8')).toContain('Trace the sample exposure.');
   });
+
+  it('uses a literal page-not-found heading on the designed 404 route', () => {
+    const notFound = readFileSync('site/404/index.html', 'utf8');
+    expect(notFound).toContain('<p class="eyebrow">Page not found</p>');
+    expect(notFound).toContain('<h1>This page was not found.</h1>');
+    expect(notFound).toContain('>Return home<');
+  });
 });

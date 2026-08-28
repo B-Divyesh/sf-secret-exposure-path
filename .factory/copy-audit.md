@@ -1,4 +1,4 @@
-# Landing-page copy audit — polish 3
+# Landing-page copy audit — polish 4
 
 Audited 2026-08-28. Counts treat hyphenated terms, commands, and numbers as one word. Navigation labels and code samples are excluded because they are not sentences.
 
@@ -49,6 +49,16 @@ Audited 2026-08-28. Counts treat hyphenated terms, commands, and numbers as one 
 | Connection dropped — this loaded lab still works. | 8 | Pass |
 
 No sentence exceeds 22 words. No banned term appears.
+
+## 404 route copy
+
+| Sentence | Words | Result |
+| --- | ---: | --- |
+| Page not found | 3 | Pass |
+| This page was not found. | 5 | Pass |
+| The page may have moved or the address may be wrong. | 11 | Pass |
+
+The route states the error directly. It has no metaphor or banned term.
 
 ## Terminology
 

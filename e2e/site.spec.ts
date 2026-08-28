@@ -76,6 +76,13 @@ test('document routes focus and announce their page heading', async ({ page }) =
   }
 });
 
+test('the designed 404 plainly says that the page was not found', async ({ page }) => {
+  await page.goto('/404/');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('This page was not found.');
+  await expect(page.getByText('Page not found', { exact: true })).toBeVisible();
+  await expect(page.getByRole('link', { name: 'Return home' })).toBeVisible();
+});
+
 test('every route has the complete shared footer', async ({ page }) => {
   for (const path of ['/', '/demo/', '/privacy/', '/terms/', '/404/']) {
     await page.goto(path);
