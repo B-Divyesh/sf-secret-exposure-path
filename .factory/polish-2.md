@@ -46,3 +46,14 @@ The first CTA opens `/?demo=1`, which enters the separate in-memory
 entry. `local-demo-390.png` records the banner, reset, Start for real,
 completed path, and stable header. Live re-check target:
 <https://secret-exposure-path.sociobot.in/?demo=1>.
+
+## Live deployment re-check
+
+The factory static deployment `7a160e77-9f37-4b1b-bb2f-56ac95cdde7a` served
+the repaired home copy cold. Fresh Chromium contexts verified `/`, `/demo/`,
+`/privacy/`, `/terms/`, and `/404/` each returned 200 with one h1/main and the
+same four-link header; an unknown path returned 404. Axe found no serious or
+critical violations. At 390px the checked home bounds were `[16,374]` for the
+h1/install/actions, inside the 390px viewport. `/?demo=1` reached
+`/demo/?demo=1` with the completed sample and banner. Live screenshots are
+`live-home-390.png` and `live-demo-390.png` in `.factory/evidence/polish-2/`.
