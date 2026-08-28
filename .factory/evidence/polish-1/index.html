@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#071015" />
+    <meta name="description" content="Trace declared credentials into command output, Git diffs, and build artifacts with a local Rust CLI." />
+    <link rel="canonical" href="https://secret-exposure-path.sociobot.in/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Secret Exposure Path — Trace credential paths" />
+    <meta property="og:description" content="Trace declared credentials into command output, Git diffs, and build artifacts with a local Rust CLI." />
+    <meta property="og:url" content="https://secret-exposure-path.sociobot.in/" />
+    <meta property="og:image" content="https://secret-exposure-path.sociobot.in/social-card.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Secret Exposure Path — Trace credential paths" />
+    <meta name="twitter:description" content="Trace declared credentials into command output, Git diffs, and build artifacts with a local Rust CLI." />
+    <meta name="twitter:image" content="https://secret-exposure-path.sociobot.in/social-card.webp" />
+    <title>Secret Exposure Path — Trace credential paths</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <script type="module" crossorigin src="/assets/style-CAL_XlyT.js"></script>
+    <script type="module" crossorigin src="/assets/main-BWl1Z9QM.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/style-BZuxWvgs.css">
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="brand" href="/" aria-label="Secret Exposure Path home">
+        <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span>
+        <span>Secret Exposure Path</span>
+      </a>
+      <nav aria-label="Primary navigation">
+        <a href="#workflow">How it works</a>
+        <a href="/demo/">Demo</a>
+        <a class="nav-github" href="https://github.com/B-Divyesh/sf-secret-exposure-path">GitHub <span aria-hidden="true">↗</span></a>
+      </nav>
+    </header>
+
+    <main id="main" tabindex="-1">
+      <section class="hero" aria-labelledby="hero-title">
+        <div class="hero-copy">
+          <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Local-first credential tracing</p>
+          <h1 id="hero-title">Trace secrets before they reach logs.</h1>
+          <p class="hero-lede">For developers and CI teams, it maps declared credentials into command output, Git diffs, and artifacts.</p>
+          <div class="install" aria-label="Install command">
+            <code><span aria-hidden="true">$ </span>cargo install --git …/sf-secret-exposure-path</code>
+            <button class="copy-button" type="button" data-copy="cargo install --git https://github.com/B-Divyesh/sf-secret-exposure-path" data-copy-label="Copy install command">Copy install command</button>
+          </div>
+          <div class="hero-actions">
+            <a class="button primary" href="/demo/">Try it with sample data</a>
+            <span class="action-note">Loads a ready exposed path.</span>
+            <a class="button secondary" href="#install">Read the CLI guide</a>
+          </div>
+          <p class="micro-proof"><span>Free under MIT</span><span>Browser demo has no telemetry</span><span>Loaded demo survives a disconnect</span></p>
+        </div>
+
+        <figure class="hero-visual">
+          <img src="/trace-landscape.webp" width="1440" height="960" alt="An amber source prism sends a luminous path through a violet command prism to three artifact sinks; one path turns coral to mark exposure." fetchpriority="high" />
+          <figcaption><span>SOURCE</span><span>COMMAND</span><span>3 SINKS · 1 EXPOSED</span></figcaption>
+        </figure>
+      </section>
+
+      <section class="signal-bar" aria-label="Product guarantees">
+        <p><strong>Credential values stay out of reports.</strong> Reports contain a 12-character fingerprint and location.</p>
+        <div class="signal-state"><span aria-hidden="true">●</span> Local CLI</div>
+      </section>
+
+      <section class="workflow section" id="workflow" aria-labelledby="workflow-title">
+        <div class="section-heading">
+          <p class="eyebrow">01 / Path model</p>
+          <h2 id="workflow-title">Scan every output you name.</h2>
+          <p>`sep` reads only the sources and outputs you name, plus staged and unstaged Git diffs. It maps exact matches and high-confidence credential shapes.</p>
+        </div>
+
+        <ol class="route-list">
+          <li>
+            <div class="route-index">A</div>
+            <div><h3>Declare sources</h3><p>Dotenv files and selected environment variables become in-memory candidates.</p></div>
+            <code>--source .env</code>
+          </li>
+          <li>
+            <div class="route-index command">B</div>
+            <div><h3>Wrap the command</h3><p>Output is captured, scanned, redacted, and then forwarded to your terminal.</p></div>
+            <code>-- npm run build</code>
+          </li>
+          <li>
+            <div class="route-index danger">C</div>
+            <div><h3>Trace each sink</h3><p>Findings link source → command → log, artifact, working tree, or staged diff.</p></div>
+            <code>exit 10</code>
+          </li>
+        </ol>
+      </section>
+
+      <section class="recording section" aria-labelledby="recording-title">
+        <div class="section-heading">
+          <p class="eyebrow">02 / Real CLI demo</p>
+          <h2 id="recording-title">Watch the bundled sample trace.</h2>
+          <p>This transcript comes from <code>sep demo</code>. The command creates a temporary sample workspace and runs the production tracing engine.</p>
+        </div>
+        <figure class="terminal-recording">
+          <img src="/sep-demo.svg" width="1120" height="560" loading="lazy" alt="Terminal transcript of sep demo finding one redacted path from a sample environment file into a release log." />
+          <figcaption>Run the same isolated sample with <code>sep demo</code>. Add <code>--json</code> for machine-readable output.</figcaption>
+        </figure>
+      </section>
+
+      <section class="demo section" id="demo" aria-labelledby="demo-title">
+        <div class="demo-intro">
+          <p class="eyebrow">03 / Browser lab</p>
+          <h2 id="demo-title">Test a path in this tab.</h2>
+          <p>This small browser model uses the same declared-value idea as the CLI. Change either side to test exposed, clear, and error states.</p>
+          <p class="connection-state" id="connection-state"><span aria-hidden="true">●</span> <span>The loaded lab works if your connection drops</span></p>
+        </div>
+
+        <div class="scanner-bench">
+          <div class="bench-topline"><span>TRACE BENCH / 0.1</span><span id="bench-clock">READY</span></div>
+          <div class="editor-grid">
+            <label class="editor">
+              <span><b>Source</b><small>.env.local</small></span>
+              <textarea id="source-input" spellcheck="false" rows="5">PUBLIC_URL=https://example.test
+DEPLOY_TOKEN=demo-river-9347</textarea>
+            </label>
+            <div class="bench-arrow" aria-hidden="true"><span></span></div>
+            <label class="editor">
+              <span><b>Sink</b><small>dist/release.log</small></span>
+              <textarea id="sink-input" spellcheck="false" rows="5">build complete
+upload token: demo-river-9347</textarea>
+            </label>
+          </div>
+          <div class="bench-actions">
+            <button class="button primary" id="trace-button" type="button">Trace paths</button>
+            <button class="button quiet" id="clear-button" type="button">Load clear sample</button>
+            <span>Input stays only in this tab.</span>
+          </div>
+          <div class="trace-result" id="trace-result" role="status" aria-live="polite" aria-atomic="true">
+            <div class="result-empty"><span aria-hidden="true">◇</span><p>Edit the sample or run the ready trace.</p></div>
+          </div>
+        </div>
+      </section>
+
+      <section class="install-section section" id="install" aria-labelledby="install-title">
+        <div class="section-heading">
+          <p class="eyebrow">04 / Use it</p>
+          <h2 id="install-title">Run the scan locally or in CI.</h2>
+        </div>
+        <div class="code-window">
+          <div class="code-title"><span>shell</span><span>source → command → artifact + git</span></div>
+          <pre tabindex="0" aria-label="CLI installation and usage example"><code><span class="dim"># Build and install the single Rust binary</span>
+cargo install --git https://github.com/B-Divyesh/sf-secret-exposure-path
+
+<span class="dim"># Wrap a command and declare the outputs to inspect</span>
+sep run \
+  --source .env \
+  --from-env DEPLOY_TOKEN \
+  --output dist/build.log \
+  -- npm run build
+
+<span class="dim"># CI: one JSON report; exit 10 blocks an exposure</span>
+sep run --json --source .env.ci -- ./ci.sh</code></pre>
+          <button class="copy-button code-copy" type="button" data-copy="sep run --source .env --output dist/build.log -- npm run build" data-copy-label="Copy command">Copy command</button>
+        </div>
+
+        <div class="contract-grid">
+          <article><span class="contract-number">00</span><h3>Clear</h3><p>No finding reached a scanned sink.</p></article>
+          <article><span class="contract-number warning">10</span><h3>Exposure found</h3><p>Use the stable exit code to stop CI before publishing or committing.</p></article>
+          <article><span class="contract-number error">02</span><h3>Could not scan</h3><p>The scan could not start. Check the source path and command.</p></article>
+        </div>
+      </section>
+
+      <section class="limits section" aria-labelledby="limits-title">
+        <p class="eyebrow">Honest boundary</p>
+        <h2 id="limits-title">What this tool cannot detect.</h2>
+        <p>Exact tracking stops when a value is encrypted, split, or transformed beyond recognition. Shape-only findings are labeled <code>unattributed</code>. Narrow fingerprint and path allowlists tame known fixtures without hiding every result.</p>
+        <a href="https://github.com/B-Divyesh/sf-secret-exposure-path#what-detection-can-and-cannot-prove">Read the detection limits <span aria-hidden="true">→</span></a>
+      </section>
+    </main>
+
+    <div id="route-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
+
+    <footer>
+      <a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Secret Exposure Path</span></a>
+      <p>Trace declared credential paths locally. v0.1.0</p>
+      <nav aria-label="Legal navigation"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://sociobot.in">Built by Param Factory <span aria-hidden="true">↗</span></a></nav>
+    </footer>
+  </body>
+</html>

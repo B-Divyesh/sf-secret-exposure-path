@@ -5,6 +5,9 @@ Review source: `.factory/review-1.md`
 Local visual evidence: `.factory/evidence/polish-1/local-home-390.png`,
 `.factory/evidence/polish-1/local-demo-390.png`, and
 `.factory/evidence/polish-1/local-privacy.png`.
+Live re-check: <https://secret-exposure-path.sociobot.in/> served the repaired
+heading and install label after deployment; live screenshots and response proof
+are in `.factory/evidence/polish-1/`.
 
 All claim commands were run separately from a clean clone of this commit.
 `npm test`, `npm run test:e2e`, `npm run build`, `cargo fmt --check`,
