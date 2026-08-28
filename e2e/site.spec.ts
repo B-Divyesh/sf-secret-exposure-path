@@ -54,7 +54,7 @@ test('demo resets in memory and is keyboard operable', async ({ page }) => {
 
 test('keyboard reaches the main action and demo', async ({ page }) => {
   await page.goto('/');
-  await page.keyboard.press('Tab');
+  await page.getByRole('link', { name: 'Skip to content' }).focus();
   await expect(page.getByRole('link', { name: 'Skip to content' })).toBeFocused();
   await page.getByRole('link', { name: 'Skip to content' }).press('Enter');
   await expect(page.locator('#main')).toBeFocused();
@@ -66,6 +66,25 @@ test('keyboard reaches the main action and demo', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Trace paths' })).toBeFocused();
   await page.keyboard.press('Enter');
   await expect(page.getByText('1 exposed path')).toBeVisible();
+});
+
+test('document routes focus and announce their page heading', async ({ page }) => {
+  for (const path of ['/', '/demo/', '/privacy/', '/terms/', '/404/']) {
+    await page.goto(path);
+    await expect(page.locator('h1')).toBeFocused();
+    await expect(page.locator('#route-announcement')).not.toBeEmpty();
+  }
+});
+
+test('every route has the complete shared footer', async ({ page }) => {
+  for (const path of ['/', '/demo/', '/privacy/', '/terms/', '/404/']) {
+    await page.goto(path);
+    const footer = page.locator('footer');
+    await expect(footer).toContainText('Trace declared credential paths locally. v0.1.0');
+    await expect(footer.getByRole('link', { name: 'Privacy' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: 'Terms' })).toBeVisible();
+    await expect(footer.getByRole('link', { name: /Built by Param Factory/ })).toBeVisible();
+  }
 });
 
 test('mobile layout does not overflow', async ({ page }) => {

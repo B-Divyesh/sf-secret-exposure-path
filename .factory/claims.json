@@ -1,51 +1,26 @@
 [
-  {
-    "id": "cli-path-redaction",
-    "claim": "The CLI traces a declared credential into an artifact and keeps its value out of the report.",
-    "where": "landing page, README",
-    "test": "npm run test:claims -- --grep @claim:cli-path-redaction",
-    "sandbox": "fresh temporary directory with a fake source.env and release.log; assert exit 10, traced path, and absent value"
-  },
-  {
-    "id": "cli-demo",
-    "claim": "sep demo runs bundled sample data in an isolated temporary workspace.",
-    "where": "landing terminal recording, README",
-    "test": "npm run test:claims -- --grep @claim:cli-demo",
-    "sandbox": "fresh process; assert temporary source and artifact exist, one path is traced, and the value is redacted"
-  },
-  {
-    "id": "browser-private",
-    "claim": "The browser demo has no telemetry, saves no input, and sends no input to another origin.",
-    "where": "landing page, demo banner, privacy page",
-    "test": "npm run test:claims -- --grep @claim:browser-private",
-    "sandbox": "fresh browser context; enter a unique value, intercept all requests, and inspect localStorage and sessionStorage"
-  },
-  {
-    "id": "cli-no-network",
-    "claim": "The CLI makes no network calls.",
-    "where": "README, privacy page",
-    "test": "npm run test:claims -- --grep @claim:cli-no-network",
-    "sandbox": "run sep demo with an injected socket interceptor; fail if the process opens a network socket"
-  },
-  {
-    "id": "mit-license",
-    "claim": "The product is free software under the MIT License.",
-    "where": "landing page, README, terms page",
-    "test": "npm run test:claims -- --grep @claim:mit-license",
-    "sandbox": "assert the shipped LICENSE contains the MIT License and Cargo package metadata declares MIT"
-  },
-  {
-    "id": "offline-loaded-demo",
-    "claim": "The loaded browser demo keeps working if its connection drops.",
-    "where": "landing browser lab, demo page",
-    "test": "npm run test:claims -- --grep @claim:offline-loaded-demo",
-    "sandbox": "fresh browser context; load /demo, go offline, then produce clear and exposed results"
-  },
-  {
-    "id": "false-positive-rate",
-    "claim": "The seeded suite reports fewer than two false positives per 100 normal commands.",
-    "where": "researched brief success measure, handoff",
-    "test": "npm run test:claims -- --grep @claim:false-positive-rate",
-    "sandbox": "fresh CLI process for each of 100 ordinary build, test, cache, audit, and documentation messages"
-  }
+  {"id":"cli-path-redaction","claim":"The CLI traces a declared credential into an artifact and keeps its value out of the report.","where":"landing page, README","test":"npm run test:claims -- --grep @claim:cli-path-redaction","sandbox":"fresh temporary directory with fake source and artifact"},
+  {"id":"fingerprint-format","claim":"Reports use a 12-character fingerprint and source and sink locations.","where":"landing page, README","test":"npm run test:claims -- --grep @claim:fingerprint-format","sandbox":"fresh artifact exposure"},
+  {"id":"declared-boundary","claim":"sep reads declared sources and outputs plus staged and unstaged Git diffs.","where":"landing workflow, README","test":"npm run test:claims -- --grep @claim:declared-boundary","sandbox":"fresh Git repository with named and decoy files"},
+  {"id":"detection-methods","claim":"sep finds literal declared values and unattributed high-confidence credential shapes.","where":"landing workflow, README","test":"npm run test:claims -- --grep @claim:detection-methods","sandbox":"fresh literal and shape fixtures"},
+  {"id":"source-types","claim":"sep loads candidates from dotenv files and selected environment variables.","where":"landing workflow, README","test":"npm run test:claims -- --grep @claim:source-types","sandbox":"fresh dotenv and process environment fixtures"},
+  {"id":"command-forwarding","claim":"sep redacts command output before forwarding it and preserves a clear command failure status.","where":"landing workflow","test":"npm run test:claims -- --grep @claim:command-forwarding","sandbox":"fresh child command that prints a declared value"},
+  {"id":"sink-paths","claim":"Findings link a source through a command to logs, artifacts, working-tree diffs, and staged diffs.","where":"landing workflow, README","test":"npm run test:claims -- --grep @claim:sink-paths","sandbox":"fresh Git repository and child command"},
+  {"id":"json-ci-contract","claim":"JSON mode writes one report to stdout, redacts forwarded output on stderr, and exits 10 for an exposure.","where":"landing recording, README","test":"npm run test:claims -- --grep @claim:json-ci-contract","sandbox":"fresh exposed child command"},
+  {"id":"browser-model","claim":"The browser lab traces declared values locally, redacts the value, and explains unavailable hashing.","where":"landing browser lab","test":"npm run test:claims -- --grep @claim:browser-model","sandbox":"fresh browser contexts with normal and unavailable crypto"},
+  {"id":"clear-result","claim":"A clear report means no finding reached the scanned sink.","where":"landing status","test":"npm run test:claims -- --grep @claim:clear-result","sandbox":"fresh declared and shape-free fixtures"},
+  {"id":"exit-code-contract","claim":"sep returns 0 when clear, 10 when exposed, 2 when it cannot scan, or the clear child command status.","where":"landing status, README","test":"npm run test:claims -- --grep @claim:exit-code-contract","sandbox":"fresh clear, exposed, missing-source, and failing-child fixtures"},
+  {"id":"detection-limits","claim":"Exact matching can miss transformed or split values, and shape-only findings are unattributed.","where":"landing limits, README","test":"npm run test:claims -- --grep @claim:detection-limits","sandbox":"fresh transformed, split, and shape fixtures"},
+  {"id":"allowlists","claim":"Fingerprint and path allowlists suppress matching findings while retaining other findings.","where":"landing limits, README","test":"npm run test:claims -- --grep @claim:allowlists","sandbox":"fresh CLI flags and TOML config fixtures"},
+  {"id":"multiple-inputs","claim":"sep accepts repeated source and output options.","where":"README","test":"npm run test:claims -- --grep @claim:multiple-inputs","sandbox":"fresh two-source two-output fixture"},
+  {"id":"inspect-mode","claim":"sep inspect scans existing inputs without running a child command.","where":"README","test":"npm run test:claims -- --grep @claim:inspect-mode","sandbox":"fresh source and input fixture"},
+  {"id":"preflight-redaction","claim":"sep refuses a declared value in command arguments before starting the child command.","where":"README","test":"npm run test:claims -- --grep @claim:preflight-redaction","sandbox":"fresh sentinel child command"},
+  {"id":"report-redaction","claim":"Tested source, command, report, JSON, and error flows do not print declared values.","where":"README, privacy page","test":"npm run test:claims -- --grep @claim:report-redaction","sandbox":"fresh representative CLI flows"},
+  {"id":"site-host-policy","claim":"The deployable site includes its security, immutable-cache, and designed 404 policy.","where":"README","test":"npm run test:claims -- --grep @claim:site-host-policy","sandbox":"built static site configuration"},
+  {"id":"cli-demo","claim":"sep demo runs bundled sample data in an isolated temporary workspace.","where":"landing terminal recording, README","test":"npm run test:claims -- --grep @claim:cli-demo","sandbox":"fresh process and temporary directory"},
+  {"id":"browser-private","claim":"The browser demo has no telemetry, saves no input, and sends no input to another origin.","where":"landing page, demo banner, privacy page","test":"npm run test:claims -- --grep @claim:browser-private","sandbox":"fresh browser context"},
+  {"id":"cli-no-network","claim":"The CLI makes no network calls.","where":"README, privacy page","test":"npm run test:claims -- --grep @claim:cli-no-network","sandbox":"socket-intercepted sep demo"},
+  {"id":"mit-license","claim":"The product is free software under the MIT License.","where":"landing page, README, terms page","test":"npm run test:claims -- --grep @claim:mit-license","sandbox":"shipped license and Cargo metadata"},
+  {"id":"offline-loaded-demo","claim":"The loaded browser demo keeps working if its connection drops.","where":"landing browser lab, demo page","test":"npm run test:claims -- --grep @claim:offline-loaded-demo","sandbox":"loaded fresh browser context set offline"},
+  {"id":"false-positive-rate","claim":"The seeded suite reports fewer than two false positives per 100 normal commands.","where":"researched brief success measure, handoff","test":"npm run test:claims -- --grep @claim:false-positive-rate","sandbox":"100 fresh normal command outputs"}
 ]

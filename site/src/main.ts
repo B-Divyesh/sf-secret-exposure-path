@@ -11,6 +11,7 @@ const clearButton = document.querySelector<HTMLButtonElement>('#clear-button');
 const benchClock = document.querySelector<HTMLElement>('#bench-clock');
 const connectionState = document.querySelector<HTMLElement>('#connection-state span:last-child');
 const resetDemoButton = document.querySelector<HTMLButtonElement>('#reset-demo');
+const routeAnnouncement = document.querySelector<HTMLElement>('#route-announcement');
 
 const demoSample = {
   source: 'PUBLIC_URL=https://example.test\nDEPLOY_TOKEN=demo-river-9347',
@@ -91,7 +92,7 @@ document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach(button => {
       helper.remove();
       button.textContent = 'Copied';
     }
-    window.setTimeout(() => { button.textContent = button.classList.contains('code-copy') ? 'Copy command' : 'Copy'; }, 1600);
+    window.setTimeout(() => { button.textContent = button.dataset.copyLabel ?? 'Copy command'; }, 1600);
   });
 });
 
@@ -105,4 +106,14 @@ updateConnection();
 
 if (window.location.pathname.replace(/\/+$/, '') === '/demo') {
   void runTrace();
+}
+
+// These are document routes rather than an SPA, so move focus after each
+// navigation just as a client-side router would. The skip link remains a
+// separate, deliberate path to the main landmark.
+const pageHeading = document.querySelector<HTMLElement>('h1');
+if (pageHeading && !window.location.hash) {
+  pageHeading.tabIndex = -1;
+  pageHeading.focus({ preventScroll: true });
+  if (routeAnnouncement) routeAnnouncement.textContent = `${pageHeading.textContent?.trim() ?? 'Page'} loaded`;
 }

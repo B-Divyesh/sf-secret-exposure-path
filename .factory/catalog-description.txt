@@ -1,0 +1,1 @@
+Trace declared credential paths before they reach logs, diffs, or artifacts.

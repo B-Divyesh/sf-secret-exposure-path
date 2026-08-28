@@ -42,7 +42,7 @@
           <p class="hero-lede">For developers and CI teams, it maps declared credentials into command output, Git diffs, and artifacts.</p>
           <div class="install" aria-label="Install command">
             <code><span aria-hidden="true">$ </span>cargo install --git …/sf-secret-exposure-path</code>
-            <button class="copy-button" type="button" data-copy="cargo install --git https://github.com/B-Divyesh/sf-secret-exposure-path" aria-label="Copy install command">Copy</button>
+            <button class="copy-button" type="button" data-copy="cargo install --git https://github.com/B-Divyesh/sf-secret-exposure-path" data-copy-label="Copy install command">Copy install command</button>
           </div>
           <div class="hero-actions">
             <a class="button primary" href="/demo/">Try it with sample data</a>
@@ -66,7 +66,7 @@
       <section class="workflow section" id="workflow" aria-labelledby="workflow-title">
         <div class="section-heading">
           <p class="eyebrow">01 / Path model</p>
-          <h2 id="workflow-title">One command. Every declared exit.</h2>
+          <h2 id="workflow-title">Scan every output you name.</h2>
           <p>`sep` reads only the sources and outputs you name, plus staged and unstaged Git diffs. It maps exact matches and high-confidence credential shapes.</p>
         </div>
 
@@ -138,7 +138,7 @@ upload token: demo-river-9347</textarea>
       <section class="install-section section" id="install" aria-labelledby="install-title">
         <div class="section-heading">
           <p class="eyebrow">04 / Use it</p>
-          <h2 id="install-title">A narrow interface for local and CI work.</h2>
+          <h2 id="install-title">Run the scan locally or in CI.</h2>
         </div>
         <div class="code-window">
           <div class="code-title"><span>shell</span><span>source → command → artifact + git</span></div>
@@ -154,23 +154,25 @@ sep run \
 
 <span class="dim"># CI: one JSON report; exit 10 blocks an exposure</span>
 sep run --json --source .env.ci -- ./ci.sh</code></pre>
-          <button class="copy-button code-copy" type="button" data-copy="sep run --source .env --output dist/build.log -- npm run build" aria-label="Copy example command">Copy command</button>
+          <button class="copy-button code-copy" type="button" data-copy="sep run --source .env --output dist/build.log -- npm run build" data-copy-label="Copy command">Copy command</button>
         </div>
 
         <div class="contract-grid">
-          <article><span class="contract-number">00</span><h3>Clear</h3><p>No source value or high-confidence shape reached a scanned sink.</p></article>
+          <article><span class="contract-number">00</span><h3>Clear</h3><p>No finding reached a scanned sink.</p></article>
           <article><span class="contract-number warning">10</span><h3>Exposure found</h3><p>Use the stable exit code to stop CI before publishing or committing.</p></article>
-          <article><span class="contract-number error">02</span><h3>Could not scan</h3><p>A source is missing, unreadable, or the command could not start.</p></article>
+          <article><span class="contract-number error">02</span><h3>Could not scan</h3><p>The scan could not start. Check the source path and command.</p></article>
         </div>
       </section>
 
       <section class="limits section" aria-labelledby="limits-title">
         <p class="eyebrow">Honest boundary</p>
-        <h2 id="limits-title">A path map, not a vault.</h2>
+        <h2 id="limits-title">What this tool cannot detect.</h2>
         <p>Exact tracking stops when a value is encrypted, split, or transformed beyond recognition. Shape-only findings are labeled <code>unattributed</code>. Narrow fingerprint and path allowlists tame known fixtures without hiding every result.</p>
         <a href="https://github.com/B-Divyesh/sf-secret-exposure-path#what-detection-can-and-cannot-prove">Read the detection limits <span aria-hidden="true">→</span></a>
       </section>
     </main>
+
+    <div id="route-announcement" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 
     <footer>
       <a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Secret Exposure Path</span></a>
