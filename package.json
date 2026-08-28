@@ -1,0 +1,23 @@
+{
+  "name": "secret-exposure-path-site",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --config vite.config.ts",
+    "build:site": "vite build --config vite.config.ts",
+    "build": "cargo build --release && npm run build:site",
+    "test:site": "vitest run && tsc --noEmit",
+    "test": "cargo test && npm run test:site",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.10.2",
+    "@fontsource/atkinson-hyperlegible": "5.2.6",
+    "@playwright/test": "1.58.2",
+    "@types/node": "22.18.0",
+    "typescript": "5.9.2",
+    "vite": "7.3.6",
+    "vitest": "3.2.7"
+  }
+}

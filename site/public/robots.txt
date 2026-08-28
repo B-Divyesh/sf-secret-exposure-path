@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://secret-exposure-path.sociobot.in/sitemap.xml

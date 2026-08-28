@@ -1,0 +1,16 @@
+:root {
+  --background: #071015;
+  --surface: #0b171d;
+  --glass: rgba(19, 43, 51, .68);
+  --ink: #071015;
+  --text: #f3f8f6;
+  --muted: #aabcB9;
+  --aqua: #64f4d2;
+  --amber: #ffc766;
+  --coral: #ff7d77;
+  --violet: #b8a4ff;
+  --line: rgba(170, 188, 185, .23);
+  --line-bright: rgba(170, 188, 185, .4);
+  --mono: ui-monospace, 'SFMono-Regular', Consolas, 'Liberation Mono', monospace;
+  color-scheme: dark;
+}

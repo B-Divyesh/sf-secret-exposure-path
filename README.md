@@ -11,10 +11,10 @@ want an answer before a secret lands in a log, artifact, or commit.
 
 ## Install
 
-Build the single binary with Rust 1.85 or newer:
+Install from source with Rust 1.85 or newer:
 
 ```sh
-cargo install --path .
+cargo install --git https://github.com/B-Divyesh/sf-secret-exposure-path
 sep --help
 ```
 
