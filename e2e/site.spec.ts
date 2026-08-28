@@ -77,6 +77,35 @@ test('mobile layout does not overflow', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Trace paths' })).toBeVisible();
 });
 
+test('visible controls meet the 44px touch target baseline', async ({ page }) => {
+  for (const path of ['/', '/demo/', '/privacy/']) {
+    await page.goto(path);
+    const undersized = await page.locator('a, button, textarea').evaluateAll(elements => elements
+      .filter(element => {
+        const style = getComputedStyle(element);
+        const rect = element.getBoundingClientRect();
+        return style.visibility !== 'hidden' && style.display !== 'none' && rect.width > 0 && rect.height > 0;
+      })
+      .map(element => {
+        const rect = element.getBoundingClientRect();
+        return { label: element.getAttribute('aria-label') ?? element.textContent?.trim().slice(0, 40), width: rect.width, height: rect.height };
+      })
+      .filter(target => target.width < 44 || target.height < 44));
+    expect(undersized).toEqual([]);
+  }
+});
+
+test('content remains available at 200 percent text size', async ({ page }) => {
+  for (const path of ['/', '/demo/', '/privacy/']) {
+    await page.goto(path);
+    await page.addStyleTag({ content: 'html { font-size: 200% !important; }' });
+    await expect(page.locator('h1')).toBeVisible();
+    await expect(page.locator('main')).toBeVisible();
+    const overflow = await page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
+    expect(overflow).toBeLessThanOrEqual(1);
+  }
+});
+
 for (const path of ['/privacy/', '/terms/', '/404/']) {
   test(`${path} has a single main heading and no serious accessibility issues`, async ({ page }) => {
     await page.goto(path);
