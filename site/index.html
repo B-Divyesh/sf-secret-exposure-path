@@ -4,9 +4,20 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="theme-color" content="#071015" />
-    <meta name="description" content="A local CLI that traces redacted credential paths into command output, Git diffs, and build artifacts." />
-    <title>Secret Exposure Path — Trace credentials before they leak</title>
+    <meta name="description" content="Trace declared credentials into command output, Git diffs, and build artifacts with a local Rust CLI." />
+    <link rel="canonical" href="https://secret-exposure-path.sociobot.in/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Secret Exposure Path — Trace credential paths" />
+    <meta property="og:description" content="Trace declared credentials into command output, Git diffs, and build artifacts with a local Rust CLI." />
+    <meta property="og:url" content="https://secret-exposure-path.sociobot.in/" />
+    <meta property="og:image" content="https://secret-exposure-path.sociobot.in/social-card.webp" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Secret Exposure Path — Trace credential paths" />
+    <meta name="twitter:description" content="Trace declared credentials into command output, Git diffs, and build artifacts with a local Rust CLI." />
+    <meta name="twitter:image" content="https://secret-exposure-path.sociobot.in/social-card.webp" />
+    <title>Secret Exposure Path — Trace credential paths</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <script type="module" src="/src/main.ts"></script>
   </head>
   <body>
@@ -18,7 +29,7 @@
       </a>
       <nav aria-label="Primary navigation">
         <a href="#workflow">How it works</a>
-        <a href="#demo">Try the trace</a>
+        <a href="/demo/">Demo</a>
         <a class="nav-github" href="https://github.com/B-Divyesh/sf-secret-exposure-path">GitHub <span aria-hidden="true">↗</span></a>
       </nav>
     </header>
@@ -27,17 +38,18 @@
       <section class="hero" aria-labelledby="hero-title">
         <div class="hero-copy">
           <p class="eyebrow"><span class="pulse" aria-hidden="true"></span> Local-first credential tracing</p>
-          <h1 id="hero-title">Trace where secrets travel. <em>Before they leave.</em></h1>
-          <p class="hero-lede">Wrap a build, agent, or release command. See the redacted path from a local source into logs, Git diffs, and generated artifacts—without sending the value anywhere.</p>
+          <h1 id="hero-title">Trace secrets before they reach logs.</h1>
+          <p class="hero-lede">For developers and CI teams, it maps declared credentials into command output, Git diffs, and artifacts.</p>
           <div class="install" aria-label="Install command">
             <code><span aria-hidden="true">$ </span>cargo install --git …/sf-secret-exposure-path</code>
             <button class="copy-button" type="button" data-copy="cargo install --git https://github.com/B-Divyesh/sf-secret-exposure-path" aria-label="Copy install command">Copy</button>
           </div>
           <div class="hero-actions">
-            <a class="button primary" href="#demo">Trace a sample</a>
+            <a class="button primary" href="/demo/">Try it with sample data</a>
+            <span class="action-note">Loads a ready exposed path.</span>
             <a class="button secondary" href="#install">Read the CLI guide</a>
           </div>
-          <p class="micro-proof"><span>Open source</span><span>No telemetry</span><span>One binary</span></p>
+          <p class="micro-proof"><span>Free under MIT</span><span>Browser demo has no telemetry</span><span>Loaded demo survives a disconnect</span></p>
         </div>
 
         <figure class="hero-visual">
@@ -47,8 +59,8 @@
       </section>
 
       <section class="signal-bar" aria-label="Product guarantees">
-        <p><strong>Values stay in memory.</strong> Reports keep only a 12-character fingerprint and location.</p>
-        <div class="signal-state"><span aria-hidden="true">●</span> Network not required</div>
+        <p><strong>Credential values stay out of reports.</strong> Reports contain a 12-character fingerprint and location.</p>
+        <div class="signal-state"><span aria-hidden="true">●</span> Local CLI</div>
       </section>
 
       <section class="workflow section" id="workflow" aria-labelledby="workflow-title">
@@ -77,12 +89,24 @@
         </ol>
       </section>
 
+      <section class="recording section" aria-labelledby="recording-title">
+        <div class="section-heading">
+          <p class="eyebrow">02 / Real CLI demo</p>
+          <h2 id="recording-title">Watch the bundled sample trace.</h2>
+          <p>This transcript comes from <code>sep demo</code>. The command creates a temporary sample workspace and runs the production tracing engine.</p>
+        </div>
+        <figure class="terminal-recording">
+          <img src="/sep-demo.svg" width="1120" height="560" loading="lazy" alt="Terminal transcript of sep demo finding one redacted path from a sample environment file into a release log." />
+          <figcaption>Run the same isolated sample with <code>sep demo</code>. Add <code>--json</code> for machine-readable output.</figcaption>
+        </figure>
+      </section>
+
       <section class="demo section" id="demo" aria-labelledby="demo-title">
         <div class="demo-intro">
-          <p class="eyebrow">02 / Browser lab</p>
-          <h2 id="demo-title">Run a trace without uploading a byte.</h2>
+          <p class="eyebrow">03 / Browser lab</p>
+          <h2 id="demo-title">Test a path in this tab.</h2>
           <p>This small browser model uses the same declared-value idea as the CLI. Change either side to test exposed, clear, and error states.</p>
-          <p class="connection-state" id="connection-state"><span aria-hidden="true">●</span> <span>Runs locally—even offline</span></p>
+          <p class="connection-state" id="connection-state"><span aria-hidden="true">●</span> <span>The loaded lab works if your connection drops</span></p>
         </div>
 
         <div class="scanner-bench">
@@ -103,7 +127,7 @@ upload token: demo-river-9347</textarea>
           <div class="bench-actions">
             <button class="button primary" id="trace-button" type="button">Trace paths</button>
             <button class="button quiet" id="clear-button" type="button">Load clear sample</button>
-            <span>Nothing entered here is saved.</span>
+            <span>Input stays only in this tab.</span>
           </div>
           <div class="trace-result" id="trace-result" role="status" aria-live="polite" aria-atomic="true">
             <div class="result-empty"><span aria-hidden="true">◇</span><p>Edit the sample or run the ready trace.</p></div>
@@ -113,7 +137,7 @@ upload token: demo-river-9347</textarea>
 
       <section class="install-section section" id="install" aria-labelledby="install-title">
         <div class="section-heading">
-          <p class="eyebrow">03 / Use it</p>
+          <p class="eyebrow">04 / Use it</p>
           <h2 id="install-title">A narrow interface for local and CI work.</h2>
         </div>
         <div class="code-window">
@@ -150,8 +174,8 @@ sep run --json --source .env.ci -- ./ci.sh</code></pre>
 
     <footer>
       <a class="brand footer-brand" href="/"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span>Secret Exposure Path</span></a>
-      <p>Free, open source, and local by default.</p>
-      <nav aria-label="Legal navigation"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://github.com/B-Divyesh/sf-secret-exposure-path">Source</a></nav>
+      <p>Trace declared credential paths locally. v0.1.0</p>
+      <nav aria-label="Legal navigation"><a href="/privacy/">Privacy</a><a href="/terms/">Terms</a><a href="https://www.sociobot.in">Built by Param Factory <span aria-hidden="true">↗</span></a></nav>
     </footer>
   </body>
 </html>

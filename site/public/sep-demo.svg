@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="560" viewBox="0 0 1120 560" role="img" aria-labelledby="title description">
+  <title id="title">Secret Exposure Path demo terminal transcript</title>
+  <desc id="description">The sep demo command creates a temporary workspace and reports one redacted path from source.env into dist/release.log.</desc>
+  <rect width="1120" height="560" fill="#050d11"/>
+  <rect x="1" y="1" width="1118" height="558" fill="none" stroke="#29434a" stroke-width="2"/>
+  <path d="M0 58h1120" stroke="#29434a"/>
+  <circle cx="28" cy="29" r="6" fill="#ff7d77"/><circle cx="50" cy="29" r="6" fill="#ffc766"/><circle cx="72" cy="29" r="6" fill="#64f4d2"/>
+  <g font-family="ui-monospace, SFMono-Regular, Menlo, Consolas, monospace" font-size="21">
+    <text x="28" y="105" fill="#aabcb9">$</text><text x="52" y="105" fill="#f3f8f6">sep demo</text>
+    <text x="28" y="153" fill="#64f4d2">Demo — bundled sample data in a temporary workspace</text>
+    <text x="28" y="196" fill="#aabcb9">Sample workspace: /tmp/secret-exposure-path-demo-…</text>
+    <text x="28" y="260" fill="#ff7d77">× Exposed — 1 path found</text>
+    <text x="28" y="316" fill="#ffc766">source.env:2</text><text x="196" y="316" fill="#b8a4ff">──[sep demo]──&gt;</text><text x="386" y="316" fill="#ff7d77">dist/release.log:2</text>
+    <text x="28" y="369" fill="#aabcb9">traced ·</text><text x="144" y="369" fill="#f3f8f6">79092d40020f</text>
+    <text x="28" y="454" fill="#64f4d2">The report contains the fingerprint and path, not the credential value.</text>
+  </g>
+</svg>

@@ -10,6 +10,12 @@ const traceButton = document.querySelector<HTMLButtonElement>('#trace-button');
 const clearButton = document.querySelector<HTMLButtonElement>('#clear-button');
 const benchClock = document.querySelector<HTMLElement>('#bench-clock');
 const connectionState = document.querySelector<HTMLElement>('#connection-state span:last-child');
+const resetDemoButton = document.querySelector<HTMLButtonElement>('#reset-demo');
+
+const demoSample = {
+  source: 'PUBLIC_URL=https://example.test\nDEPLOY_TOKEN=demo-river-9347',
+  sink: 'build complete\nupload token: demo-river-9347',
+};
 
 function escapeHtml(value: string): string {
   return value.replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character] ?? character);
@@ -61,6 +67,13 @@ clearButton?.addEventListener('click', () => {
   void runTrace();
 });
 
+resetDemoButton?.addEventListener('click', () => {
+  if (!sourceInput || !sinkInput) return;
+  sourceInput.value = demoSample.source;
+  sinkInput.value = demoSample.sink;
+  void runTrace();
+});
+
 document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach(button => {
   button.addEventListener('click', async () => {
     const value = button.dataset.copy ?? '';
@@ -83,9 +96,13 @@ document.querySelectorAll<HTMLButtonElement>('[data-copy]').forEach(button => {
 });
 
 function updateConnection(): void {
-  if (connectionState) connectionState.textContent = navigator.onLine ? 'Runs locally—even offline' : 'Offline—local demo still works';
+  if (connectionState) connectionState.textContent = navigator.onLine ? 'The loaded lab works if your connection drops' : 'Connection dropped — this loaded lab still works';
 }
 
 window.addEventListener('online', updateConnection);
 window.addEventListener('offline', updateConnection);
 updateConnection();
+
+if (window.location.pathname.replace(/\/+$/, '') === '/demo') {
+  void runTrace();
+}

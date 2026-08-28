@@ -9,7 +9,8 @@
     "build": "cargo build --release && npm run build:site",
     "test:site": "vitest run && tsc --noEmit",
     "test": "cargo test && npm run test:site",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "test:claims": "cargo build && playwright test --project=claims"
   },
   "devDependencies": {
     "@axe-core/playwright": "4.10.2",

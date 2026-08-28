@@ -1,0 +1,51 @@
+[
+  {
+    "id": "cli-path-redaction",
+    "claim": "The CLI traces a declared credential into an artifact and keeps its value out of the report.",
+    "where": "landing page, README",
+    "test": "npm run test:claims -- --grep @claim:cli-path-redaction",
+    "sandbox": "fresh temporary directory with a fake source.env and release.log; assert exit 10, traced path, and absent value"
+  },
+  {
+    "id": "cli-demo",
+    "claim": "sep demo runs bundled sample data in an isolated temporary workspace.",
+    "where": "landing terminal recording, README",
+    "test": "npm run test:claims -- --grep @claim:cli-demo",
+    "sandbox": "fresh process; assert temporary source and artifact exist, one path is traced, and the value is redacted"
+  },
+  {
+    "id": "browser-private",
+    "claim": "The browser demo has no telemetry, saves no input, and sends no input to another origin.",
+    "where": "landing page, demo banner, privacy page",
+    "test": "npm run test:claims -- --grep @claim:browser-private",
+    "sandbox": "fresh browser context; enter a unique value, intercept all requests, and inspect localStorage and sessionStorage"
+  },
+  {
+    "id": "cli-no-network",
+    "claim": "The CLI makes no network calls.",
+    "where": "README, privacy page",
+    "test": "npm run test:claims -- --grep @claim:cli-no-network",
+    "sandbox": "run sep demo with an injected socket interceptor; fail if the process opens a network socket"
+  },
+  {
+    "id": "mit-license",
+    "claim": "The product is free software under the MIT License.",
+    "where": "landing page, README, terms page",
+    "test": "npm run test:claims -- --grep @claim:mit-license",
+    "sandbox": "assert the shipped LICENSE contains the MIT License and Cargo package metadata declares MIT"
+  },
+  {
+    "id": "offline-loaded-demo",
+    "claim": "The loaded browser demo keeps working if its connection drops.",
+    "where": "landing browser lab, demo page",
+    "test": "npm run test:claims -- --grep @claim:offline-loaded-demo",
+    "sandbox": "fresh browser context; load /demo, go offline, then produce clear and exposed results"
+  },
+  {
+    "id": "false-positive-rate",
+    "claim": "The seeded suite reports fewer than two false positives per 100 normal commands.",
+    "where": "researched brief success measure, handoff",
+    "test": "npm run test:claims -- --grep @claim:false-positive-rate",
+    "sandbox": "fresh CLI process for each of 100 ordinary build, test, cache, audit, and documentation messages"
+  }
+]

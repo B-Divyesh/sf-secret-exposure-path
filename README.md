@@ -3,8 +3,8 @@
 `sep` is a local shell and CI wrapper that shows where a credential traveled:
 from an explicitly declared source file or environment variable into command
 output, a Git diff, or a generated artifact. Reports contain only redacted
-fingerprints and locations. Nothing is transmitted and detected values are
-never written to disk.
+fingerprints and locations. The CLI makes no network calls. It does not write
+detected values to its reports.
 
 It is for developers and teams using coding agents, build scripts, and CI who
 want an answer before a secret lands in a log, artifact, or commit.
@@ -22,6 +22,19 @@ Registry publication is intentionally left to the Param Factory. The package
 can be checked with `cargo package`.
 
 ## Usage
+
+Try the complete workflow with bundled fake data. This creates an isolated
+temporary workspace and prints its path:
+
+```sh
+sep demo
+sep demo --json
+```
+
+The browser demo at
+[secret-exposure-path.sociobot.in/demo/](https://secret-exposure-path.sociobot.in/demo/)
+loads an exposed path in one click. Its edits stay in memory and are discarded
+on reload or when you select **Start for real**.
 
 Trace a command, loading candidate values from a dotenv file and scanning a
 declared artifact plus the staged and unstaged Git diff:
@@ -83,16 +96,21 @@ and repository scanner rather than replacing either.
 ## Develop and verify
 
 ```sh
-npm install
+npm ci
 npm test
+npm run test:claims
+npm run test:e2e
 npm run build
 cargo package --allow-dirty
 ```
 
 `npm test` runs the Rust suite and site checks. `npm run build` produces the
 release CLI in `target/release/sep` and the deployable site in `dist/site/`.
-Run the docs site locally with `npm run dev`.
+Run the docs site locally with `npm run dev`. Deploy `dist/site/` as the static
+site root. Its `staticwebapp.config.json` defines security headers, immutable
+asset caching, and the designed 404 response.
 
-No telemetry, network calls, hosted scripts, or hosted fonts are used at
-runtime. See [LICENSE](LICENSE) for the MIT license and
+The browser demo has no telemetry, persistent storage, hosted scripts, or
+hosted fonts. See [.factory/claims.json](.factory/claims.json) for executable
+claim checks, [LICENSE](LICENSE) for the MIT license, and
 [CHANGELOG.md](CHANGELOG.md) for release notes.

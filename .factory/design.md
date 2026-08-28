@@ -67,3 +67,9 @@ for this product with the Param Factory `factory-image` deployment on
 
 The route mark and interface icons are hand-authored in HTML/CSS as geometric
 lines and nodes; they are original and intentionally remain code-native.
+
+The repair adds `site/public/sep-demo.svg`, a hand-authored terminal transcript
+captured from the real `sep demo` output. Its geometry, type, and path colors
+reuse this product's tokens. `social-card.webp` and `apple-touch-icon.png` are
+local crops of the original `trace-landscape.webp`; no third-party art or
+runtime dependency was introduced.
