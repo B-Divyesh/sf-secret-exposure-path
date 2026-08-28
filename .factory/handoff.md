@@ -1,39 +1,50 @@
-# Handoff — adversarial review 3
+# Handoff — polish 3 repair
 
 Date: 2026-08-28
-Work order: `secret-exposure-path-review-3`
+Work order: `secret-exposure-path-polish-3`
+Repair commit: `a17c3e626f717d097c0f4311e24db5bba3f578a3`
 
 ## Done
 
-Performed a no-code-change adversarial review of the deployed product and
-committed the report as `.factory/review-3.md`.
+- Made the one-click `/?demo=1` sample show its actual completed redacted path
+  before scrolling on a 390 × 844 phone. The result is the real scanner result;
+  the editable source and sink remain below it.
+- Kept the demo banner sticky on phones, with Reset demo and Start for real
+  continuously available.
+- Tightened the first-screen phone layout so all three required product facts
+  appear before the 844px viewport ends.
+- Rewrote the allowlist instruction in plain language and refreshed the copy
+  audit and verb-first catalog description.
+- Added regression tests for phone fact bounds, direct-demo result bounds, and
+  persistent demo controls. `npm run test:e2e` now builds the required CLI
+  before browser tests, so it does not depend on a previous test command.
 
-The report verdict is **FAIL** with three findings:
+## Verification
 
-- F-3-1 (blocking): on 390 × 844, the one-click demo’s completed sample path
-  begins at y=1442px, so it is not visible in the first viewport.
-- F-3-2: the landing page’s three required plain facts start at y=838px and
-  y=866px, below or clipped by the first 844px viewport.
-- F-3-3: one allowlist sentence uses metaphorical/internal wording.
+Fresh clean clone: `/tmp/secret-exposure-path-polish3.xZrUiw/repo` at
+`a17c3e626f717d097c0f4311e24db5bba3f578a3`.
 
-No product source, assets, or tests were changed.
+- `npm ci` — passed, 0 audit vulnerabilities.
+- Every exact command registered by all 24 `.factory/claims.json` entries —
+  passed separately; recorded in `/tmp/sep-polish3-claims.log`.
+- `npm test` — passed: 4 Rust library tests, 7 Rust CLI tests, 7 site tests,
+  and TypeScript checking.
+- `npm run build` — passed; produced `target/release/sep` and `dist/site/`.
+- `npm run test:e2e` — 57 passed, 3 intentional desktop skips for phone-only
+  checks; Axe found no serious or critical violations on the tested routes.
+- `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`,
+  `cargo package --allow-dirty --no-verify`, and
+  `npm audit --audit-level=moderate` — passed. The package is 22 files,
+  141.5 KiB unpacked / 37.6 KiB compressed.
+- Local 390px evidence:
+  `.factory/evidence/polish-3/local-home-390.png` and
+  `.factory/evidence/polish-3/local-demo-390.png`. The facts end at y=825.67;
+  the completed demo result ends at y=820.66, both inside 844px.
 
-## Verification performed
+No `verify-url.sh` exists in this repository. The browser suite’s
+`@axe-core/playwright` checks cover home, demo, privacy, terms, and 404 routes.
 
-- Fresh live Chromium checks at 390 × 844 and 1440 × 960 for cold first read,
-  screenshots, request/console logs, metadata, accessibility structure,
-  routing, back-button focus, headers/footers, links, and designed 404.
-- Fresh browser demo: direct `?demo=1`, sample result, banner, reset, unique
-  input redaction, empty browser storage, and same-origin request log.
-- Fresh clean clone at `/tmp/sep-review3.pw3WiH/repo`: `npm ci`, `npm test`,
-  `npm run build`, all 24 individual `claims.json` test commands, and
-  `npm run test:e2e` (54 passed).
-- CLI demo executed from a separate temporary working directory and created a
-  separate system temporary sample workspace with a redacted result.
+## Known gaps and next step
 
-## Next steps
-
-Repair F-3-1 through F-3-3, deploy, then repeat the complete review from a
-fresh browser context and clean clone. Known product limitations remain the
-documented, claim-tested exact-tracking boundary; no new backend or AI work is
-needed.
+There are no known product gaps. Push this repair, wait for the static
+deployment, then cold-open the live URL and re-check every mapped finding.
