@@ -1,0 +1,2 @@
+release bundle ready
+upload credential: sample-aurora-route-9347

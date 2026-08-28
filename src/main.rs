@@ -18,6 +18,15 @@ enum Commands {
     Run(RunArgs),
     /// Scan existing files or directories without running a command
     Inspect(InspectArgs),
+    /// Run the bundled sample in an isolated temporary workspace
+    Demo(DemoArgs),
+}
+
+#[derive(Args)]
+struct DemoArgs {
+    /// Print one JSON report to stdout
+    #[arg(long)]
+    json: bool,
 }
 
 #[derive(Args)]
@@ -89,7 +98,49 @@ fn execute(cli: Cli) -> Result<i32, String> {
     match cli.command {
         Commands::Run(args) => run(args),
         Commands::Inspect(args) => inspect(args),
+        Commands::Demo(args) => demo(args),
     }
+}
+
+fn demo(args: DemoArgs) -> Result<i32, String> {
+    let workspace = demo_workspace()?;
+    let source = workspace.join("source.env");
+    let artifact_dir = workspace.join("dist");
+    let artifact = artifact_dir.join("release.log");
+    std::fs::create_dir(&artifact_dir)
+        .map_err(|error| format!("could not create demo output directory: {error}"))?;
+    std::fs::write(&source, include_str!("../examples/demo.env"))
+        .map_err(|error| format!("could not write demo source: {error}"))?;
+    std::fs::write(&artifact, include_str!("../examples/release-output.txt"))
+        .map_err(|error| format!("could not write demo artifact: {error}"))?;
+
+    let mut trace = Trace::new(Allowlist::default());
+    trace.add_source_file(&source)?;
+    trace.scan_path(&artifact, "sep demo")?;
+    let report = trace.report(Some("sep demo".to_string()));
+
+    if args.json {
+        eprintln!("Demo workspace: {}", workspace.display());
+    } else {
+        println!("Demo — bundled sample data in a temporary workspace");
+        println!("Sample workspace: {}\n", workspace.display());
+    }
+    print_report(&report, args.json)?;
+    Ok(0)
+}
+
+fn demo_workspace() -> Result<PathBuf, String> {
+    let root = std::env::temp_dir();
+    let process = std::process::id();
+    for attempt in 0..1000 {
+        let path = root.join(format!("secret-exposure-path-demo-{process}-{attempt}"));
+        match std::fs::create_dir(&path) {
+            Ok(()) => return Ok(path),
+            Err(error) if error.kind() == io::ErrorKind::AlreadyExists => continue,
+            Err(error) => return Err(format!("could not create demo workspace: {error}")),
+        }
+    }
+    Err("could not create a unique demo workspace".to_string())
 }
 
 fn trace_from(common: &CommonArgs) -> Result<Trace, String> {

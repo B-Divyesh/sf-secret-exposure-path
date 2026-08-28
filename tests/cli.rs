@@ -151,4 +151,64 @@ fn help_documents_the_ci_contract() {
     assert!(help.contains("Trace secrets"));
     assert!(help.contains("inspect"));
     assert!(help.contains("run"));
+    assert!(help.contains("demo"));
+}
+
+#[test]
+fn demo_uses_bundled_data_in_a_temporary_workspace_and_redacts_it() {
+    let result = sep().args(["demo", "--json"]).output().unwrap();
+    assert!(result.status.success());
+
+    let report: Value = serde_json::from_slice(&result.stdout).unwrap();
+    assert_eq!(report["status"], "exposed");
+    assert_eq!(report["summary"]["findings"], 1);
+    assert_eq!(report["findings"][0]["kind"], "traced");
+
+    let stdout = String::from_utf8_lossy(&result.stdout);
+    let stderr = String::from_utf8_lossy(&result.stderr);
+    assert!(!stdout.contains("sample-aurora-route-9347"));
+    assert!(!stderr.contains("sample-aurora-route-9347"));
+    assert!(stderr.contains("Demo workspace:"));
+
+    let workspace = stderr.trim().strip_prefix("Demo workspace: ").unwrap();
+    assert!(std::path::Path::new(workspace).join("source.env").is_file());
+    assert!(std::path::Path::new(workspace)
+        .join("dist/release.log")
+        .is_file());
+}
+
+#[test]
+fn keeps_false_positives_below_two_for_100_normal_commands() {
+    let normal_messages = [
+        "compiled 42 modules",
+        "cache restored",
+        "tests passed",
+        "artifact uploaded",
+        "lint completed",
+        "release dry run",
+        "no changes detected",
+        "workspace clean",
+        "dependency audit clear",
+        "documentation generated",
+    ];
+    let mut false_positives = 0_u64;
+
+    for index in 0..100 {
+        let message = format!(
+            "{}; job={index}; duration={}ms",
+            normal_messages[index % 10],
+            index + 11
+        );
+        let result = sep()
+            .args(["run", "--json", "--no-git", "--", "printf", "%s", &message])
+            .output()
+            .unwrap();
+        let report: Value = serde_json::from_slice(&result.stdout).unwrap();
+        false_positives += report["summary"]["findings"].as_u64().unwrap();
+    }
+
+    assert!(
+        false_positives < 2,
+        "expected fewer than two false positives, got {false_positives}"
+    );
 }
