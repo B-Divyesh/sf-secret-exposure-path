@@ -1,106 +1,158 @@
-# Handoff — Secret Exposure Path v0.1.0
-
-## Independent verification — FAIL
-
-Verified 2026-08-28 against candidate
-`e74ec13a1702a5d73218f4dd25269bcab2aaa1e6` and
-https://secret-exposure-path.sociobot.in/.
-
-**Do not release this candidate.** Required `.factory/claims.json` is missing;
-there is no compliant one-click isolated demo or CLI `sep demo` sample; and
-the live deployment omits the declared CSP, Permissions-Policy, and immutable
-asset caching headers. The live root HTML byte-matches the candidate build.
-See `.factory/verification.md` for exact commands, evidence, applicability,
-and severity-ranked defects. Local tests/build/package checks passed, but they
-do not override these release blockers.
+# Handoff — Secret Exposure Path repair 1
 
 Date: 2026-08-28
-Work order: `secret-exposure-path-build-1`
 
-## What shipped
+Work order: `secret-exposure-path-repair-1`
 
-- A Rust single-binary CLI named `sep` with two non-interactive commands:
-  `sep run` wraps a command; `sep inspect` scans existing sinks.
-- Explicit source tracking from dotenv/text files and selected environment
-  variables. Candidate values remain in process memory only.
-- Preflight detection blocks a command when a declared value appears literally
-  in its arguments, before the child process starts.
-- Sink coverage for redacted stdout/stderr, declared files/directories, and
-  staged plus unstaged Git diffs.
-- High-confidence shape detectors for GitHub, AWS, Stripe, Slack, Google API,
-  and full private-key material; dotenv name/value tracking covers arbitrary
-  team credentials.
-- Human path graphs and stable JSON reports containing only 12-character
-  SHA-256 fingerprints and locations. Exit codes: 0 clear, 10 exposure, 2
-  scanner error, otherwise the wrapped command's failure code.
-- `.seppath.toml` plus CLI fingerprint/path allowlists.
-- A Vite documentation site with an interactive, browser-local trace bench,
-  explicit clear/loading/error/offline states, mobile layout, CLI examples,
-  privacy policy, terms, and no analytics or remote runtime assets.
-- Original `site/public/trace-landscape.webp` hero art (27,348 bytes), generated
-  with the required Param Factory `factory-image` deployment. Full prompt and
-  provenance are recorded in `.factory/design.md`.
+Verifier report: `4d9f3adc80bb95b97d072e9dd4bd246a063dfd5a`
 
-## Verification
+Failed candidate: `e74ec13a1702a5d73218f4dd25269bcab2aaa1e6`
 
-All commands passed in the working tree:
+Repair commits: `826fafc`, `763ae0d`, `525bce8`, `791ca21`
+
+## Release decision
+
+**Ready for re-verification.** All seven findings in `.factory/verification.md`
+were reproduced and repaired. The static site and CLI artifact class are
+unchanged. The repair is pushed to `origin/main` and deployed at
+<https://secret-exposure-path.sociobot.in/>.
+
+## Finding-by-finding repairs
+
+1. **Claims contract:** added `.factory/claims.json` with seven claims. Each ID
+   has exactly one matching `@claim:<id>` Playwright test. The contract covers
+   path redaction, the CLI demo, CLI network isolation, MIT licensing, browser
+   privacy, connection-drop behavior, and the 100-command false-positive goal.
+2. **One-click browser demo:** the first CTA is now **Try it with sample data**.
+   One click opens `/demo/`, where an exposed result is already visible. A
+   persistent banner identifies sample mode and provides **Reset demo** and
+   **Start for real**. State uses only the in-memory `demo:` namespace; reload
+   and exit discard edits. `.factory/demo.md` documents the sandbox.
+3. **CLI demo:** `sep demo` and `sep demo --json` copy the bundled
+   `examples/demo.env` and `examples/release-output.txt` into a unique system
+   temporary directory, run the production `Trace` engine, redact the value,
+   and print the workspace path. `site/public/sep-demo.svg` records the real
+   command transcript. Rust and claim tests cover the workflow.
+4. **Production response policy:** `staticwebapp.config.json` now defines CSP,
+   Permissions-Policy, nosniff, referrer policy, revalidated HTML, year-long
+   immutable hashed assets, and the 404 override. Azure consumed that file on
+   deployment. Live responses now contain the required headers; the main JS
+   returns `Cache-Control: public, max-age=31536000, immutable`.
+5. **Plain first screen:** the H1 is “Trace secrets before they reach logs.”
+   The 15-word supporting sentence names developers and CI teams. The primary
+   action explains that it loads a ready exposed path. Three short facts cover
+   license and tested privacy/offline behavior. `.factory/copy-audit.md` lists
+   every landing sentence; none exceeds 22 words or uses a banned term.
+6. **Metadata and routes:** home, demo, privacy, terms, and the designed 404
+   have route-specific titles. Canonical, Open Graph, Twitter card, favicon,
+   and Apple touch metadata are present where applicable. The original hero
+   art produced the 1200×630 social card and 180px touch icon. Unknown paths
+   return the designed page with HTTP 404. The sitemap includes `/demo/`.
+7. **False-positive measure:** both Rust integration and tagged claim coverage
+   execute 100 ordinary build, test, cache, audit, release, and documentation
+   outputs. The measured result is 0 findings, below the required limit of 2.
+
+## Local verification
+
+The following passed from the repaired tree:
 
 ```sh
 npm ci
 npm test
 npm run build
+npm run test:claims
 npm run test:e2e
 npm audit --audit-level=moderate
+cargo fmt --check
 cargo clippy --all-targets -- -D warnings
 cargo package --allow-dirty --no-verify
 ```
 
-The same `npm ci && npm test && npm run build` sequence passed from a clean
-`git archive` at commit `a916d48`. The build produced:
+Results:
 
-- `target/release/sep` (3.5 MiB single binary)
-- `dist/site/index.html` plus `/privacy/` and `/terms/`
-- Cargo package: 110.2 KiB unpacked / 30.5 KiB compressed
+- `npm test`: 4 Rust unit, 7 CLI integration, 3 scanner model, and 3 release
+  contract tests passed; TypeScript strict checking passed.
+- `npm run test:claims`: 7/7 claims passed from fresh browser contexts or
+  temporary CLI directories. The network claim injects a socket interceptor
+  and observes no socket attempt.
+- `npm run test:e2e`: 29/29 passed across desktop Chromium, 390×844 Chromium,
+  and the dedicated claim project. Coverage includes keyboard operation,
+  44px targets, 200% text, zero horizontal overflow, reset/discard, offline
+  after load, metadata, valid labels, and Axe on all routes.
+- Axe: 0 serious or critical violations on home, demo, privacy, terms, and 404.
+- `npm audit`: 0 vulnerabilities.
+- Clippy with warnings denied and `cargo fmt --check`: pass.
+- Production artifacts: `target/release/sep` is 3,678,472 bytes; initial home
+  JS is 4,512 bytes (2.00 kB gzip), CSS is 16,160 bytes (4.35 kB gzip), and the
+  social card is 18,704 bytes. All are within the required budgets.
+- `cargo package`: 22 files, 123.4 KiB unpacked / 34.2 KiB compressed. A fresh
+  `cargo install --path /work/repo --root <temp>` consumer install exposed
+  `run`, `inspect`, and `demo`; its JSON demo returned one traced, redacted
+  finding and exit 0.
+- A fresh `git archive` of commit `525bce8` completed `npm ci`, `npm test`, and
+  `npm run build`. The later `791ca21` change only corrected an external footer
+  hostname and was followed by another passing `npm test` and production build.
 
-Test coverage/results:
+## Performance and accessibility evidence
 
-- Rust: 4 unit + 5 end-to-end CLI tests passed, including seeded paths through
-  command output, artifacts, and a real Git diff; tests assert values never
-  appear in stdout/stderr/JSON.
-- Site: 3 scanner-model tests and TypeScript strict checks passed.
-- Playwright 1.58.2: 10/10 desktop Chromium and 390×844 mobile checks passed.
-  These cover keyboard flow, responsive overflow, demo states, image loading,
-  console errors, one-h1/main semantics, and Axe on home/privacy/terms.
-- Axe: zero serious or critical violations.
-- npm audit: zero known vulnerabilities.
+Lighthouse 12.8.2 mobile against the local production build:
 
-Lighthouse mobile lab result (local production preview): performance 100,
-accessibility 100, best practices 100, SEO 92; LCP 1.4 s, CLS 0.013, transfer
-73 KiB. INP has no lab value for a static initial load; the tested demo action
-updates in the same task after local SHA-256 completes. Production assets are
-4.9 KiB initial JavaScript, 15.4 KiB CSS, ~35 KiB loaded WOFF2 fonts, and a
-27 KiB hero image, all below the work-order budgets.
+| Category/metric | Result |
+| --- | ---: |
+| Performance | 100 |
+| Accessibility | 100 |
+| Best practices | 100 |
+| SEO | 100 |
+| LCP | 1,409 ms |
+| CLS | 0.0072 |
+| Total blocking time | 0 ms |
+| Transfer | 76,894 bytes |
 
-## Known limits
+INP has no stable lab value for this static initial-load audit. Browser tests
+exercise the trace interaction synchronously. Reduced-motion, focus treatment,
+single H1/main landmarks, alternative text, keyboard actions, 200% text, and
+390px layouts all pass. The design remains intentionally single-mode as stated
+in `.factory/design.md`.
 
-- Exact path tracking cannot follow encrypted, split, shortened, or otherwise
-  transformed values. The report labels shape-only matches `unattributed`.
-- Git coverage is staged and unstaged diffs. Untracked files must be named with
-  `--output`/`--input` (or added to Git) to be scanned.
-- Binary outputs and individual files over 10 MiB are skipped with a warning;
-  this avoids accidental memory spikes in build pipelines.
-- Command output is captured before being redacted and forwarded, so very long
-  running or extremely verbose processes are not streamed incrementally in v1.
-- SEO scored 92 in the local Lighthouse run because its `robots.txt` fetch
-  failed during the lab pass; the built root contains a valid `robots.txt` and
-  sitemap.
+Evidence is stored under `.factory/evidence/`, including local/live desktop and
+390px screenshots, URL verifier JSON, response headers, designed 404 response,
+and the Lighthouse JSON report.
 
-## Factory next steps
+## Live deployment evidence
 
-1. Publish the already validated crate/package using factory-owned registry
-   credentials (`cargo package` is ready); do not publish from this worker.
-2. Build with `npm run build` and deploy `dist/site/` as the static root.
-3. Attach platform release binaries for Linux/macOS/Windows if desired; the
-   source-install command works today.
-4. Run production Lighthouse once the canonical domain and caching headers are
-   live, particularly to confirm the robots/sitemap request.
+- Azure Static Web Apps deployment ID:
+  `9d993f43-9829-47c4-b261-9d281dba9fc2`.
+- The deployed root and `dist/site/index.html` have the same SHA-256:
+  `373dca51d98c312111ecb1dbd2cb70969b95fbd069a20c54b1f113392ce7960e`.
+- `/`, `/demo/`, `/privacy/`, `/terms/`, and `/404/` return 200. An unknown
+  path returns the designed page with HTTP 404.
+- Valid routes have one H1, one main landmark, 0px overflow at 390px, no page
+  or console errors, and 0 serious/critical Axe findings.
+- The live one-click demo reaches `/demo/`, renders one exposed path, and still
+  produces a clear result after the browser context goes offline.
+- A crawl of every internal and external link returns HTTP 200.
+- Root HTML revalidates. The hashed JavaScript and WebP return a one-year
+  immutable cache policy. CSP and Permissions-Policy are present live.
+- Azure treats `staticwebapp.config.json` as reserved deployment input, so its
+  public URL correctly receives the designed 404. The file is present in both
+  source and `dist/site/`, and the live headers prove the platform applied it.
+
+## Privacy, offline, and update behavior
+
+The browser demo emitted only same-origin static requests. Its unique test
+value appeared in no request or result, and cookies, localStorage, and
+sessionStorage remained empty. The loaded demo continues to trace after a
+connection drop. This is not a PWA and makes no offline-reload claim; updates
+use revalidated HTML plus immutable content-hashed assets. The CLI socket
+interceptor recorded no network access.
+
+## Known limits and next steps
+
+- Existing detection limits remain: encoded, encrypted, split, shortened, or
+  unsupported transformations can break exact paths. Binary and files over
+  10 MiB are skipped with warnings. These limits remain explicit in the UI,
+  README, privacy terms, and CLI behavior.
+- Registry publication remains a factory action. The package is ready for
+  `cargo publish`; this repair did not publish it.
+- There are no remaining release-blocking product-QA findings known from the
+  cited verifier report.
