@@ -1,4 +1,26 @@
-# Handoff — Secret Exposure Path independent verification 2
+# Handoff — adversarial first-read review 1
+
+Date: 2026-08-28
+Work order: `secret-exposure-path-review-1`
+Live URL: <https://secret-exposure-path.sociobot.in/>
+
+## Current review result
+
+**FAIL.** This reviewer changed only this handoff and
+[`.factory/review-1.md`](review-1.md). A fresh live mobile/desktop review and
+clean-clone test pass confirmed that all earlier verification defects remain
+fixed. Every command in `.factory/claims.json`, plus `npm test` and
+`npm run build`, passed.
+
+The new review records 26 findings: user-reliable behavior that lacks a claim
+entry/test, three overlong README sentences, three context-free headings,
+route focus left on `<body>`, inconsistent legal/404 footers, and the visible
+“Copy” button label. Implement the concrete remedies in `review-1.md` and
+repeat the full fresh-context review.
+
+---
+
+# Previous handoff — Secret Exposure Path independent verification 2
 
 Date: 2026-08-28
 
