@@ -30,7 +30,7 @@ sep demo --json
 ```
 
 The browser demo at
-[secret-exposure-path.sociobot.in/demo/](https://secret-exposure-path.sociobot.in/demo/)
+[secret-exposure-path.sociobot.in/?demo=1](https://secret-exposure-path.sociobot.in/?demo=1)
 loads an exposed path in one click. Edits stay in memory. Reloading or choosing
 **Start for real** discards them.
 
@@ -78,14 +78,14 @@ not start. A clear `sep run` returns the child command status.
 
 ### What detection can and cannot prove
 
-`sep` matches declared in-memory values. It also flags high-confidence
-credential shapes in sinks. A declared value in command arguments stops the
-child command before it starts. That report redacts the value.
+`sep` matches declared in-memory values. It also flags text that looks like a
+credential but has no declared source. A declared value in command arguments
+stops the child command before it starts. That report redacts the value.
 
 Encoding, encryption, splitting, short values, or unsupported transformations
 can break exact tracking. A shape match without a declared source is
 `unattributed`. Use narrow fingerprint and path allowlists. This tool
-complements a secret manager and repository scanner.
+complements a credential manager and repository scanner.
 
 ## Develop and verify
 

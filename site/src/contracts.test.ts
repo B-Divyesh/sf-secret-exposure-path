@@ -21,11 +21,24 @@ describe('release contracts', () => {
     expect(config.responseOverrides['404'].rewrite).toBe('/404/index.html');
   });
 
-  it('ships the demo route, metadata assets, and demo documentation', () => {
+  it('ships the demo route, ?demo=1 entry, metadata assets, and demo documentation', () => {
     expect(readFileSync('site/demo/index.html', 'utf8')).toContain('Demo — sample data, nothing is saved');
-    expect(readFileSync('site/index.html', 'utf8')).toContain('Try it with sample data');
+    expect(readFileSync('site/index.html', 'utf8')).toContain('href="/?demo=1"');
     expect(readFileSync('.factory/demo.md', 'utf8')).toContain('sep demo');
     expect(readFileSync('site/public/social-card.webp').byteLength).toBeGreaterThan(1000);
     expect(readFileSync('site/public/apple-touch-icon.png').byteLength).toBeGreaterThan(1000);
+  });
+
+  it('uses the stable primary navigation and plain credential copy', () => {
+    for (const route of ['site/index.html', 'site/demo/index.html', 'site/privacy/index.html', 'site/terms/index.html', 'site/404/index.html']) {
+      const html = readFileSync(route, 'utf8');
+      expect(html).toContain('How it works');
+      expect(html).toContain('>Demo<');
+      expect(html).toContain('>Privacy<');
+      expect(html).toContain('>Terms<');
+    }
+    const home = readFileSync('site/index.html', 'utf8');
+    expect(home).toContain('Trace credentials before they reach logs.');
+    expect(home).toContain('Read the detection limits on GitHub');
   });
 });

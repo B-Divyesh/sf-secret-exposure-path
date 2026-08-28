@@ -1,22 +1,50 @@
-# Handoff — adversarial review 2
+# Handoff — polish 2
 
 Date: 2026-08-28
-Work order: `secret-exposure-path-review-2`
+Work order: `secret-exposure-path-polish-2`
 
 ## Done
 
-Wrote `.factory/review-2.md` and made no product-code changes. The review is **FAIL** with one blocking and four non-blocking findings.
+Closed every F-1 and F-2 finding. The first screen now uses one `credential`
+term, plain local-execution/detection wording, and an isolated one-click
+`/?demo=1` route. That entry redirects into `/demo/?demo=1`, which has the
+persistent banner, Reset demo, Start for real, and only in-memory sample state.
 
-The blocking live issue at 390px clips the landing h1, install control, and secondary action: a 538px hero-copy sits in a 358px column while main overflow is hidden. The review also records inconsistent header navigation, two unmarked external links, and two plain-words issues.
+The mobile hero no longer clips: its grid child can shrink, the install
+control/action group wraps, and a 390px test checks the h1, install control,
+and both actions against the viewport. Every route shares the How it works /
+Demo / Privacy / Terms header. GitHub destinations are named visibly. The
+luminous-glass trace visual system remains unchanged.
+
+`.factory/polish-2.md` maps every finding to its repair and evidence. The
+catalog description is: “Trace declared credentials before they reach logs,
+Git diffs, or build artifacts.”
 
 ## Verification
 
-- Fresh live Chromium checks at 390 × 844 and 1440 × 960; no console errors.
-- Fresh demo check: completed one-click sample, banner/reset, redaction, empty browser storage, and same-origin-only request log.
-- Direct `sep demo --json` from the clean clone created an isolated temporary workspace and emitted a redacted report.
-- In `/tmp/sep-review2-KY2Phb`: `npm ci`, `npm test`, `npm run build`, `npm run test:e2e`, and all 24 declared claim commands passed.
-- Checked live metadata, direct/deep routes, 404, link crawl, focus/back behavior, robots/sitemap, footers, and every F-1 repair.
+- `npm ci && npm test` — passed: 11 Rust tests, 7 Vitest contract/scanner tests, and TypeScript.
+- `npm run test:e2e` — passed: 54 Playwright desktop/mobile/claim checks; `.last-run.json` is `passed`.
+- `npm run test:claims` — passed: 24/24 tagged claim tests, including the `?demo=1` privacy entry.
+- `npm run build` — passed; `dist/site/` produced. Initial JS gzip is 2.13 kB and CSS gzip is 4.45 kB.
+- `cargo fmt --check`, `cargo clippy --all-targets -- -D warnings`, and `cargo package --allow-dirty --no-verify` — passed.
+- Playwright Axe checks on `/`, `/demo/`, `/privacy/`, `/terms/`, and `/404/` found no serious or critical violations. Console-error checks are in the home suite.
+- Screenshots: `.factory/evidence/polish-2/local-home-390.png`, `local-demo-390.png`, and `local-home-desktop.png`.
 
-## Next steps
+## Run and deploy
 
-Repair every item in `.factory/review-2.md`, especially F-2-1, deploy, and repeat a complete cold review. No code was changed in this work order.
+```sh
+npm ci
+npm test
+npm run test:claims
+npm run test:e2e
+npm run build
+```
+
+Deploy `dist/site/` through the repository static-site work order. Cold-open
+`https://secret-exposure-path.sociobot.in/` and
+`https://secret-exposure-path.sociobot.in/?demo=1` after deployment.
+
+## Known gaps
+
+None. Exact tracking intentionally cannot follow encrypted, split, or
+unsupported transformations; that documented boundary is claim-tested.

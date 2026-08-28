@@ -26,10 +26,10 @@ test('home is usable, quiet in the console, and accessible', async ({ page }) =>
 
 test('first screen names its audience and opens a completed demo in one click', async ({ page }) => {
   await page.goto('/');
-  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Trace secrets before they reach logs.');
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('Trace credentials before they reach logs.');
   await expect(page.getByText(/For developers and CI teams/)).toBeVisible();
   await page.getByRole('link', { name: 'Try it with sample data' }).click();
-  await expect(page).toHaveURL(/\/demo\/$/);
+  await expect(page).toHaveURL(/\/demo\/\?demo=1$/);
   await expect(page.getByText('Demo — sample data, nothing is saved')).toBeVisible();
   await expect(page.getByText('1 exposed path')).toBeVisible();
   await expect(page.getByRole('button', { name: 'Reset demo' })).toBeVisible();
@@ -94,6 +94,33 @@ test('mobile layout does not overflow', async ({ page }) => {
   await expect(page.getByRole('heading', { level: 1 })).toBeVisible();
   await page.locator('#demo').scrollIntoViewIfNeeded();
   await expect(page.getByRole('button', { name: 'Trace paths' })).toBeVisible();
+});
+
+test('mobile first screen keeps its heading, install control, and actions inside the viewport', async ({ page }) => {
+  await page.goto('/');
+  const viewportWidth = await page.evaluate(() => window.innerWidth);
+  const bounds = await page.locator('#hero-title, .install, .hero-actions .button').evaluateAll(elements => elements.map(element => {
+    const rect = element.getBoundingClientRect();
+    return { left: rect.left, right: rect.right, top: rect.top, bottom: rect.bottom };
+  }));
+  for (const bound of bounds) {
+    expect(bound.left).toBeGreaterThanOrEqual(0);
+    expect(bound.right).toBeLessThanOrEqual(viewportWidth);
+    expect(bound.bottom).toBeGreaterThan(bound.top);
+  }
+});
+
+test('every route shares the same primary navigation and labels off-site links', async ({ page }) => {
+  const navigation = ['How it works', 'Demo', 'Privacy', 'Terms'];
+  for (const path of ['/', '/demo/', '/privacy/', '/terms/', '/404/']) {
+    await page.goto(path);
+    await expect(page.locator('header nav a')).toHaveText(navigation);
+    await expect(page.locator('header nav a')).toHaveCount(4);
+  }
+  await page.goto('/');
+  await expect(page.getByRole('link', { name: /Read the detection limits on GitHub/ })).toBeVisible();
+  await page.goto('/privacy/');
+  await expect(page.getByRole('link', { name: /public GitHub issue tracker/ })).toBeVisible();
 });
 
 test('visible controls meet the 44px touch target baseline', async ({ page }) => {

@@ -18,6 +18,12 @@ const demoSample = {
   sink: 'build complete\nupload token: demo-river-9347',
 };
 
+// Keep the catalog-friendly sample URL one click from the landing page while
+// making the actual sandbox a separate document and in-memory state.
+if (window.location.pathname === '/' && new URLSearchParams(window.location.search).get('demo') === '1') {
+  window.location.replace('/demo/?demo=1');
+}
+
 function escapeHtml(value: string): string {
   return value.replace(/[&<>'"]/g, character => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' })[character] ?? character);
 }

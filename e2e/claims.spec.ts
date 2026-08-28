@@ -81,7 +81,8 @@ test('@claim:mit-license ships under the MIT license', () => {
 test('@claim:browser-private keeps demo input in memory and sends no input', async ({ page, context }) => {
   const requests: string[] = [];
   page.on('request', request => requests.push(request.url()));
-  await page.goto('/demo/');
+  await page.goto('/?demo=1');
+  await expect(page).toHaveURL(/\/demo\/\?demo=1$/);
   await expect(page.getByText('1 exposed path')).toBeVisible();
 
   const uniqueValue = 'browser-only-sample-7294';

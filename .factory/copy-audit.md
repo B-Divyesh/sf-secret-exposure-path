@@ -1,17 +1,19 @@
-# Landing-page copy audit — polish 1
+# Landing-page copy audit — polish 2
 
 Audited 2026-08-28. Counts treat hyphenated terms, commands, and numbers as one word. Navigation labels and code samples are excluded because they are not sentences.
 
 | Sentence | Words | Result |
 | --- | ---: | --- |
-| Trace secrets before they reach logs. | 6 | Pass |
+| Runs on your computer. | 4 | Pass |
+| Trace credentials before they reach logs. | 6 | Pass |
 | For developers and CI teams, it maps declared credentials into command output, Git diffs, and artifacts. | 15 | Pass |
 | Loads a ready exposed path. | 5 | Pass |
 | Credential values stay out of reports. | 6 | Pass |
 | Reports contain a 12-character fingerprint and location. | 7 | Pass |
 | Scan every output you name. | 5 | Pass |
 | `sep` reads only the sources and outputs you name, plus staged and unstaged Git diffs. | 15 | Pass |
-| It maps exact matches and high-confidence credential shapes. | 8 | Pass |
+| It maps exact matches. | 4 | Pass |
+| It also flags text that looks like a credential but has no declared source. | 14 | Pass |
 | Dotenv files and selected environment variables become in-memory candidates. | 9 | Pass |
 | Output is captured, scanned, redacted, and then forwarded to your terminal. | 11 | Pass |
 | Findings link source → command → log, artifact, working tree, or staged diff. | 11 | Pass |

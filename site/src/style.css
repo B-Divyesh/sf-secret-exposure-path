@@ -34,13 +34,13 @@ button, a { -webkit-tap-highlight-color: transparent; }
 .brand-mark i { position: relative; z-index: 1; width: 7px; height: 7px; border: 1px solid var(--aqua); background: var(--background); transform: rotate(45deg); }
 .brand-mark i:nth-child(2) { margin-left: 7px; border-color: var(--violet); }
 .brand-mark i:nth-child(3) { margin-left: 7px; border-color: var(--coral); }
-.site-header nav, footer nav { display: flex; align-items: center; gap: 32px; }
+.site-header nav, footer nav { display: flex; align-items: center; gap: 24px; }
 .site-header nav a, footer nav a { min-width: 44px; min-height: 44px; display: inline-flex; align-items: center; color: var(--muted); text-decoration: none; }
 .site-header nav a:hover, footer nav a:hover { color: var(--text); }
-.nav-github { border: 1px solid var(--line); min-height: 44px; padding: 8px 14px; display: inline-flex; align-items: center; gap: 8px; }
-main { overflow: hidden; }
+.site-header nav a[aria-current="page"] { color: var(--aqua); }
+main { overflow: clip; }
 .hero { width: min(1320px, calc(100% - 48px)); min-height: 720px; margin: 30px auto 0; display: grid; grid-template-columns: minmax(440px, .85fr) minmax(560px, 1.15fr); align-items: center; gap: 32px; }
-.hero-copy { position: relative; z-index: 2; padding-left: 50px; }
+.hero-copy { position: relative; z-index: 2; min-width: 0; padding-left: 50px; }
 .eyebrow { margin: 0 0 20px; color: var(--aqua); font: 700 13px/1.2 var(--mono); letter-spacing: .15em; text-transform: uppercase; }
 .pulse { display: inline-block; width: 7px; height: 7px; margin-right: 8px; border-radius: 50%; background: var(--aqua); box-shadow: 0 0 12px var(--aqua); }
 h1, h2, h3, p { margin-top: 0; }
@@ -156,7 +156,6 @@ footer { min-height: 180px; border-top: 1px solid var(--line); color: var(--mute
 @keyframes reveal { from { opacity: 0; transform: translateX(24px); } to { opacity: 1; transform: none; } }
 
 @media (max-width: 920px) {
-  .site-header nav a:not(.nav-github) { display: none; }
   .hero { min-height: auto; padding-top: 60px; grid-template-columns: 1fr; }
   .hero-copy { padding-left: 0; }
   .hero-visual { margin: -30px -14% 0 0; }
@@ -167,12 +166,17 @@ footer { min-height: 180px; border-top: 1px solid var(--line); color: var(--mute
 
 @media (max-width: 640px) {
   .site-header, footer, .hero, .signal-bar, .section { width: min(100% - 32px, 1120px); }
-  .site-header { min-height: 72px; }
+  .site-header { min-height: 72px; padding: 12px 0; align-items: flex-start; flex-wrap: wrap; row-gap: 6px; }
   .brand { font-size: 15px; }
-  .site-header nav { gap: 8px; }
+  .site-header nav { width: 100%; gap: 4px 16px; flex-wrap: wrap; }
+  .site-header nav a { min-height: 44px; }
   .hero { padding-top: 44px; }
-  h1 { font-size: clamp(3rem, 15vw, 4.2rem); }
+  .hero-copy { min-width: 0; }
+  h1 { max-width: 100%; font-size: clamp(3rem, 15vw, 4.2rem); overflow-wrap: anywhere; }
   .hero-lede { font-size: 18px; }
+  .install { width: 100%; max-width: 100%; flex-wrap: wrap; padding: 8px; }
+  .install code { width: 100%; flex-basis: 100%; }
+  .install .copy-button { width: 100%; }
   .hero-actions .button { flex: 1; }
   .action-note { width: 100%; order: 2; min-height: auto; }
   .micro-proof { flex-wrap: wrap; gap: 6px 16px; }
